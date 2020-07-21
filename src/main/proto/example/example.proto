@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package example;
+
+option java_package = "com.google.search.robotstxt.example";
+option java_outer_classname = "ExampleProtos";
+
+message Example {
+  optional string some_field = 1;
+  repeated int64 some_repeated = 2;
+}
