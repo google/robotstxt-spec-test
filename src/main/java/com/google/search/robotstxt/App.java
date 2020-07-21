@@ -20,7 +20,7 @@ import com.google.search.robotstxt.example.ExampleProtos.Example;
 public class App {
   public static void main(String[] args) {
     System.out.println("Hello World!");
-    Example aProto = Example.newBuilder().setSomeField("Helo World!").addSomeRepeated(42).build();
+    Example aProto = Example.newBuilder().setSomeField("Hello World!").addSomeRepeated(42).build();
 
     System.out.println("My proto:\n" + aProto);
   }
