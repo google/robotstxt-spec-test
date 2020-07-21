@@ -72,3 +72,18 @@ Apache header:
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+It can be done easily by using the
+[addlicense](https://github.com/google/addlicense) tool
+
+Install it:
+
+```
+$ go get -u github.com/google/addlicense
+```
+
+Use it like this to make sure all files have the licence:
+
+```
+$ ~/go/bin/addlicense -c "Google LLC" -l apache .
+```
