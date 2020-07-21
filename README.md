@@ -36,7 +36,7 @@ Install it:
 $ go get -u github.com/google/addlicense
 ```
 
-Use it like this to make sure all file have the licence:
+Use it like this to make sure all files have the licence:
 
 ```
 $ ~/go/bin/addlicense -c "Google LLC" -l apache .
