@@ -4,6 +4,52 @@ This project aims to allow for any implementation of a robots.txt parser to be
 tested and have some confidence that it adheres to the standard, as specified by
 the [internet draft](https://tools.ietf.org/html/draft-koster-rep).
 
+## Development
+
+### Prerequisites
+
+You need Maven to build this project.
+[Download](https://maven.apache.org/download.html) and
+[install](https://maven.apache.org/install.html) it from the official website.
+
+You can also install it like this if your Linux supports it:
+
+```
+$ sudo apt-get install maven
+```
+
+You will also need to have the
+[protocol buffer](https://developers.google.com/protocol-buffers/) compiler
+([protoc](https://github.com/protocolbuffers/protobuf)) installed.
+Get [the latest](https://github.com/protocolbuffers/protobuf/releases/latest)
+for your platform (i.e. `protoc-x.x.x-win64.zip`, `protoc-x.x.x-osx-x86_64.zip`).
+
+You can also install it like this if your Linux supports it:
+
+```
+$ sudo apt-get install protobuf-compiler
+```
+
+### Build it
+
+Standard maven commands work here.
+
+```
+$ mvn install
+```
+
+Or if you want a build from scratch:
+
+```
+$ mvn clean install
+```
+
+### Run it
+
+```
+$ mvn exec:java -Dexec.mainClass="com.google.search.robotstxt.App" -Dexec.args="arg0 arg1"
+```
+
 ## Source Code Headers
 
 Every file containing source code must include copyright and license
