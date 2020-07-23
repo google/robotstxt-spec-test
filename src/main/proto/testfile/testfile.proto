@@ -19,20 +19,24 @@ package testfile;
 option java_package = "com.google.search.robotstxt.spec.testfile";
 option java_outer_classname = "TestFileProtos";
 
-message ParserTest {
-    optional string robotstxt = 1;
-    optional test test_situations = 2;
+message RobotsTxtSpecification {
+  repeated RobotsTxtTest tests = 1;
+}
+
+message RobotsTxtTest {
+  optional string robotstxt = 1;
+  repeated Expectation test_situations = 2;
 }
 
 enum Outcome {
-    ALLOWED = 0;
-    DISALLOWED = 1;
-    UNSPECIFIED = 2;
+  UNSPECIFIED = 0;
+  ALLOWED = 1;
+  DISALLOWED = 2;
 }
 
-message Test {
-    optional string testurl = 1;
-    optional string useragent = 2;
-    optional Outcome expected_outcome = 3;
-    optional string additional_explanation = 4;
+message Expectation {
+  optional string testurl = 1;
+  optional string useragent = 2;
+  optional Outcome expected_outcome = 3;
+  optional string additional_explanation = 4;
 }
