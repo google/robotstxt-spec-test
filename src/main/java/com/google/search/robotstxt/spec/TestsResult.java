@@ -1,11 +1,11 @@
 package com.google.search.robotstxt.spec;
 
 import com.google.search.robotstxt.spec.testfile.TestFileProtos;
+
+import java.net.StandardSocketOptions;
 import java.util.ArrayList;
 
-/**
- * Holds the results of the tests performed
- */
+/** Holds the results of the tests performed */
 public class TestsResult {
   private int totalNumberComplianceTests;
   private int totalNumberUserTests;
@@ -14,27 +14,22 @@ public class TestsResult {
   ArrayList<Pair<TestInfo, TestFileProtos.Outcome>> failedComplianceTests;
   ArrayList<Pair<TestInfo, TestFileProtos.Outcome>> failedUserTests;
 
-  /**
-   * Default constructor
-   */
+  /** Default constructor */
   public TestsResult() {}
 
-  /**
-   * Reports the success of one Complience Test
-   */
+  /** Reports the success of one Complience Test */
   public void reportSuccessComplianceTests() {
     this.totalNumberComplianceTests++;
   }
 
-  /**
-   * Reports the success of one user test
-   */
+  /** Reports the success of one user test */
   public void reportSuccessUserTests() {
     this.totalNumberUserTests++;
   }
 
   /**
    * Adds the failure of one Compliance Test
+   *
    * @param failedTest The info about the failed test
    * @param userOutcome The outcome of the parser
    */
@@ -43,10 +38,15 @@ public class TestsResult {
     this.totalNumberComplianceTests++;
     this.numberFailedComplianceTests++;
     this.failedComplianceTests.add(new Pair(failedTest, userOutcome));
+    System.out.println("COMPLIANCE TEST FAILED");
+    System.out.println(failedTest.toString() );
+    System.out.println("Your outcome: " + userOutcome.toString() );
+    System.out.println();
   }
 
   /**
    * Adds the failure of one user test
+   *
    * @param failedTest The info about the failed test
    * @param userOutcome The outcome of the parser
    */
@@ -54,6 +54,10 @@ public class TestsResult {
     this.totalNumberUserTests++;
     this.numberFailedUserTests++;
     this.failedUserTests.add(new Pair(failedTest, userOutcome));
+    System.out.println("USER TEST FAILED");
+    System.out.println(failedTest.toString() );
+    System.out.println("Your outcome: " + userOutcome.toString() );
+    System.out.println();
   }
 
   @Override
