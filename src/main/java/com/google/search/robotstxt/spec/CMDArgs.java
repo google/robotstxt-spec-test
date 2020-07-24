@@ -35,7 +35,8 @@ public class CMDArgs {
     this.callParserCommand = callParserCommand;
 
     if (complianceTestsDir == null) {
-      this.complianceTestsDir = "CTC"; // We should find another way to access the "home directory" of
+      this.complianceTestsDir =
+          "CTC"; // We should find another way to access the "home directory" of
       // the app
     } else {
       this.complianceTestsDir = complianceTestsDir;
