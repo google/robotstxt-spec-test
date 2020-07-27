@@ -14,7 +14,7 @@
 
 package com.google.search.robotstxt.spec;
 
-import com.google.search.robotstxt.spec.testfile.TestFileProtos;
+import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -29,11 +29,11 @@ public class ProtoParser {
    * @param testCases The list
    */
   private void addTestInfoObjects(
-      TestFileProtos.RobotsTxtSpecification robotsTxtSpec, ArrayList<TestInfo> testCases) {
-    for (TestFileProtos.RobotsTxtTest robotsTxtTest : robotsTxtSpec.getTestsList()) {
+      SpecificationProtos.RobotsTxtSpecification robotsTxtSpec, ArrayList<TestInfo> testCases) {
+    for (SpecificationProtos.RobotsTxtTest robotsTxtTest : robotsTxtSpec.getTestsList()) {
       String robotsTxtContent = robotsTxtTest.getRobotstxt();
 
-      for (TestFileProtos.Expectation expectation : robotsTxtTest.getTestSituationsList()) {
+      for (SpecificationProtos.Expectation expectation : robotsTxtTest.getTestSituationsList()) {
         TestInfo testInfo =
             new TestInfo(
                 robotsTxtContent,
@@ -59,8 +59,8 @@ public class ProtoParser {
     File[] allFiles = dir.listFiles();
     ArrayList<TestInfo> testCases = new ArrayList<>();
     for (File testFile : allFiles) {
-      TestFileProtos.RobotsTxtSpecification robotsTxtSpec =
-          TestFileProtos.RobotsTxtSpecification.parseFrom(new FileInputStream(testFile));
+      SpecificationProtos.RobotsTxtSpecification robotsTxtSpec =
+          SpecificationProtos.RobotsTxtSpecification.parseFrom(new FileInputStream(testFile));
       addTestInfoObjects(robotsTxtSpec, testCases);
     }
 

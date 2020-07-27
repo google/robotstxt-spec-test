@@ -14,14 +14,14 @@
 
 package com.google.search.robotstxt.spec;
 
-import com.google.search.robotstxt.spec.testfile.TestFileProtos;
+import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 
 /** Information about a specific test case */
 public class TestInfo {
   private String robotxtxtContent;
   private String url;
   private String userAgent;
-  private TestFileProtos.Outcome expectedOutcome;
+  private SpecificationProtos.Outcome expectedOutcome;
   private String additionalExplanation;
 
   /** Default constructor */
@@ -40,7 +40,7 @@ public class TestInfo {
       String robotxtxtContent,
       String url,
       String userAgent,
-      TestFileProtos.Outcome expectedOutcome,
+      SpecificationProtos.Outcome expectedOutcome,
       String additionalExplanation) {
     this.robotxtxtContent = robotxtxtContent;
     this.url = url;
@@ -61,7 +61,7 @@ public class TestInfo {
     return userAgent;
   }
 
-  public TestFileProtos.Outcome getExpectedOutcome() {
+  public SpecificationProtos.Outcome getExpectedOutcome() {
     return expectedOutcome;
   }
 

@@ -14,7 +14,7 @@
 
 package com.google.search.robotstxt.spec;
 
-import com.google.search.robotstxt.spec.testfile.TestFileProtos;
+import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 import java.util.ArrayList;
 
 /** Holds the results of the tests performed */
@@ -23,8 +23,8 @@ public class TestsResult {
   private int totalNumberUserTests;
   private int numberFailedComplianceTests;
   private int numberFailedUserTests;
-  ArrayList<Pair<TestInfo, TestFileProtos.Outcome>> failedComplianceTests;
-  ArrayList<Pair<TestInfo, TestFileProtos.Outcome>> failedUserTests;
+  ArrayList<Pair<TestInfo, SpecificationProtos.Outcome>> failedComplianceTests;
+  ArrayList<Pair<TestInfo, SpecificationProtos.Outcome>> failedUserTests;
 
   /** Default constructor */
   public TestsResult() {}
@@ -46,7 +46,7 @@ public class TestsResult {
    * @param userOutcome The outcome of the parser
    */
   public void reportFailureComplianceTests(
-      TestInfo failedTest, TestFileProtos.Outcome userOutcome) {
+      TestInfo failedTest, SpecificationProtos.Outcome userOutcome) {
     this.totalNumberComplianceTests++;
     this.numberFailedComplianceTests++;
     this.failedComplianceTests.add(new Pair(failedTest, userOutcome));
@@ -62,7 +62,7 @@ public class TestsResult {
    * @param failedTest The info about the failed test
    * @param userOutcome The outcome of the parser
    */
-  public void reportFailureUserTests(TestInfo failedTest, TestFileProtos.Outcome userOutcome) {
+  public void reportFailureUserTests(TestInfo failedTest, SpecificationProtos.Outcome userOutcome) {
     this.totalNumberUserTests++;
     this.numberFailedUserTests++;
     this.failedUserTests.add(new Pair(failedTest, userOutcome));

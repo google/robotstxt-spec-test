@@ -14,10 +14,10 @@
 
 syntax = "proto2";
 
-package testfile;
+package specification;
 
-option java_package = "com.google.search.robotstxt.spec.testfile";
-option java_outer_classname = "TestFileProtos";
+option java_package = "com.google.search.robotstxt.spec.specification";
+option java_outer_classname = "SpecificationProtos";
 
 message RobotsTxtSpecification {
   repeated RobotsTxtTest tests = 1;
