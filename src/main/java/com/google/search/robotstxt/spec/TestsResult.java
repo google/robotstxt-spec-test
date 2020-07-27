@@ -15,7 +15,6 @@
 package com.google.search.robotstxt.spec;
 
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
-import java.util.List;
 
 /** Holds the results of the tests performed */
 public class TestsResult {
@@ -23,8 +22,6 @@ public class TestsResult {
   private int totalNumberUserTests;
   private int numberFailedComplianceTests;
   private int numberFailedUserTests;
-  List<Pair<TestInfo, SpecificationProtos.Outcome>> failedComplianceTests;
-  List<Pair<TestInfo, SpecificationProtos.Outcome>> failedUserTests;
 
   /** Default constructor */
   public TestsResult() {}
@@ -49,7 +46,6 @@ public class TestsResult {
       TestInfo failedTest, SpecificationProtos.Outcome userOutcome) {
     this.totalNumberComplianceTests++;
     this.numberFailedComplianceTests++;
-    this.failedComplianceTests.add(new Pair(failedTest, userOutcome));
     System.out.println("COMPLIANCE TEST FAILED");
     System.out.println(failedTest.toString());
     System.out.println("Your outcome: " + userOutcome.toString());
@@ -65,7 +61,6 @@ public class TestsResult {
   public void reportFailureUserTests(TestInfo failedTest, SpecificationProtos.Outcome userOutcome) {
     this.totalNumberUserTests++;
     this.numberFailedUserTests++;
-    this.failedUserTests.add(new Pair(failedTest, userOutcome));
     System.out.println("USER TEST FAILED");
     System.out.println(failedTest.toString());
     System.out.println("Your outcome: " + userOutcome.toString());
@@ -79,7 +74,7 @@ public class TestsResult {
             + "Number of Compliance Tests: "
             + this.totalNumberComplianceTests
             + "\nNumber of Compliance Tests Failed: "
-            + this.failedComplianceTests
+            + this.numberFailedComplianceTests
             + "\nNumber of user's tests: "
             + this.totalNumberUserTests
             + "\nNumber of user's tests failed: "
