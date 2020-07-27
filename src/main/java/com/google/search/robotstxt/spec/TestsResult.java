@@ -1,8 +1,6 @@
 package com.google.search.robotstxt.spec;
 
 import com.google.search.robotstxt.spec.testfile.TestFileProtos;
-
-import java.net.StandardSocketOptions;
 import java.util.ArrayList;
 
 /** Holds the results of the tests performed */
@@ -39,8 +37,8 @@ public class TestsResult {
     this.numberFailedComplianceTests++;
     this.failedComplianceTests.add(new Pair(failedTest, userOutcome));
     System.out.println("COMPLIANCE TEST FAILED");
-    System.out.println(failedTest.toString() );
-    System.out.println("Your outcome: " + userOutcome.toString() );
+    System.out.println(failedTest.toString());
+    System.out.println("Your outcome: " + userOutcome.toString());
     System.out.println();
   }
 
@@ -55,8 +53,8 @@ public class TestsResult {
     this.numberFailedUserTests++;
     this.failedUserTests.add(new Pair(failedTest, userOutcome));
     System.out.println("USER TEST FAILED");
-    System.out.println(failedTest.toString() );
-    System.out.println("Your outcome: " + userOutcome.toString() );
+    System.out.println(failedTest.toString());
+    System.out.println("Your outcome: " + userOutcome.toString());
     System.out.println();
   }
 
