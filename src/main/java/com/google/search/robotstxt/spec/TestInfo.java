@@ -18,7 +18,7 @@ import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 
 /** Information about a specific test case */
 public class TestInfo {
-  private String robotxtxtContent;
+  private String robotsTxtContent;
   private String url;
   private String userAgent;
   private SpecificationProtos.Outcome expectedOutcome;
@@ -30,19 +30,19 @@ public class TestInfo {
   /**
    * Constructor with parameters (sets all the fields
    *
-   * @param robotxtxtContent The robots.txt file contents
+   * @param robotsTxtContent The robots.txt file contents
    * @param url The URL
    * @param userAgent The user-agent
    * @param expectedOutcome The expected outcome
    * @param additionalExplanation The additional explanation
    */
   public TestInfo(
-      String robotxtxtContent,
+      String robotsTxtContent,
       String url,
       String userAgent,
       SpecificationProtos.Outcome expectedOutcome,
       String additionalExplanation) {
-    this.robotxtxtContent = robotxtxtContent;
+    this.robotsTxtContent = robotsTxtContent;
     this.url = url;
     this.userAgent = userAgent;
     this.expectedOutcome = expectedOutcome;
@@ -50,7 +50,7 @@ public class TestInfo {
   }
 
   public String getRobotxtxtContent() {
-    return robotxtxtContent;
+    return robotsTxtContent;
   }
 
   public String getUrl() {
@@ -71,7 +71,7 @@ public class TestInfo {
 
   public String toString() {
     return "The robots.txt content: \n\n"
-        + this.robotxtxtContent
+        + this.robotsTxtContent
         + "\n\n"
         + "The URL: "
         + this.url
