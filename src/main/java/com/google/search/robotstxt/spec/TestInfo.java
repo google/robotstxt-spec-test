@@ -19,10 +19,7 @@ import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 /** Information about a specific test case */
 public class TestInfo {
   private String robotsTxtContent;
-  private String url;
-  private String userAgent;
-  private SpecificationProtos.Outcome expectedOutcome;
-  private String additionalExplanation;
+  private SpecificationProtos.Expectation expectation;
 
   /** Default constructor */
   public TestInfo() {}
@@ -31,22 +28,12 @@ public class TestInfo {
    * Constructor with parameters (sets all the fields
    *
    * @param robotsTxtContent The robots.txt file contents
-   * @param url The URL
-   * @param userAgent The user-agent
-   * @param expectedOutcome The expected outcome
-   * @param additionalExplanation The additional explanation
+   * @param expectation The structure from specification.proto (url, user-agent, expected outcome,
+   *     explanation)
    */
-  public TestInfo(
-      String robotsTxtContent,
-      String url,
-      String userAgent,
-      SpecificationProtos.Outcome expectedOutcome,
-      String additionalExplanation) {
+  public TestInfo(String robotsTxtContent, SpecificationProtos.Expectation expectation) {
     this.robotsTxtContent = robotsTxtContent;
-    this.url = url;
-    this.userAgent = userAgent;
-    this.expectedOutcome = expectedOutcome;
-    this.additionalExplanation = additionalExplanation;
+    this.expectation = expectation;
   }
 
   public String getRobotxtxtContent() {
@@ -54,19 +41,19 @@ public class TestInfo {
   }
 
   public String getUrl() {
-    return url;
+    return this.expectation.getTesturl();
   }
 
   public String getUserAgent() {
-    return userAgent;
+    return this.expectation.getUseragent();
   }
 
   public SpecificationProtos.Outcome getExpectedOutcome() {
-    return expectedOutcome;
+    return this.expectation.getExpectedOutcome();
   }
 
   public String getAdditionalExplanation() {
-    return additionalExplanation;
+    return this.expectation.getAdditionalExplanation();
   }
 
   public String toString() {
@@ -74,16 +61,16 @@ public class TestInfo {
         + this.robotsTxtContent
         + "\n\n"
         + "The URL: "
-        + this.url
+        + this.expectation.getTesturl()
         + "\n"
         + "The user-agent: "
-        + this.userAgent
+        + this.expectation.getUseragent()
         + "\n"
         + "The expected outcome: "
-        + this.expectedOutcome
+        + this.expectation.getExpectedOutcome()
         + "\n"
         + "The additional explanation: "
-        + this.additionalExplanation
+        + this.expectation.getAdditionalExplanation()
         + "\n";
   }
 }
