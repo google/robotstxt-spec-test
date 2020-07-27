@@ -15,7 +15,7 @@
 package com.google.search.robotstxt.spec;
 
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
-import java.util.ArrayList;
+import java.util.List;
 
 /** Holds the results of the tests performed */
 public class TestsResult {
@@ -23,8 +23,8 @@ public class TestsResult {
   private int totalNumberUserTests;
   private int numberFailedComplianceTests;
   private int numberFailedUserTests;
-  ArrayList<Pair<TestInfo, SpecificationProtos.Outcome>> failedComplianceTests;
-  ArrayList<Pair<TestInfo, SpecificationProtos.Outcome>> failedUserTests;
+  List<Pair<TestInfo, SpecificationProtos.Outcome>> failedComplianceTests;
+  List<Pair<TestInfo, SpecificationProtos.Outcome>> failedUserTests;
 
   /** Default constructor */
   public TestsResult() {}

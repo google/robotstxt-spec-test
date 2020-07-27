@@ -18,6 +18,7 @@ import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /** Class for parsing Protocol Buffer test cases */
 public class ProtoParser {
@@ -29,7 +30,7 @@ public class ProtoParser {
    * @param testCases The list
    */
   private void addTestInfoObjects(
-      SpecificationProtos.RobotsTxtSpecification robotsTxtSpec, ArrayList<TestInfo> testCases) {
+      SpecificationProtos.RobotsTxtSpecification robotsTxtSpec, List<TestInfo> testCases) {
     for (SpecificationProtos.RobotsTxtTest robotsTxtTest : robotsTxtSpec.getTestsList()) {
       String robotsTxtContent = robotsTxtTest.getRobotstxt();
 
@@ -52,12 +53,12 @@ public class ProtoParser {
    * @param dirPath The path to the directory containing the files
    * @return The list of TestInfo objects
    */
-  public ArrayList<TestInfo> readMessages(String dirPath)
+  public List<TestInfo> readMessages(String dirPath)
       throws java.io.FileNotFoundException, java.io.IOException {
 
     File dir = new File(dirPath);
     File[] allFiles = dir.listFiles();
-    ArrayList<TestInfo> testCases = new ArrayList<>();
+    List<TestInfo> testCases = new ArrayList<>();
     for (File testFile : allFiles) {
       SpecificationProtos.RobotsTxtSpecification robotsTxtSpec =
           SpecificationProtos.RobotsTxtSpecification.parseFrom(new FileInputStream(testFile));
