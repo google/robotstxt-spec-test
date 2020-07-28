@@ -22,7 +22,6 @@ public class CMDArgs {
   private OutputType mode;
   private String allowedPattern;
   private String disallowedPattern;
-  private String undefinedPattern;
 
   /** Default constructor */
   public CMDArgs() {}
@@ -36,7 +35,6 @@ public class CMDArgs {
    * @param mode The output mode
    * @param allowedPattern The allowed pattern (regular expression)
    * @param disallowedPattern The disallowed pattern (regular expression)
-   * @param undefinedPattern The undefined pattern (regular expression)
    */
   public CMDArgs(
       String callParserCommand,
@@ -44,8 +42,7 @@ public class CMDArgs {
       String myTestsDir,
       OutputType mode,
       String allowedPattern,
-      String disallowedPattern,
-      String undefinedPattern) {
+      String disallowedPattern) {
     this.callParserCommand = callParserCommand;
 
     if (complianceTestsDir == null) {
@@ -75,12 +72,6 @@ public class CMDArgs {
     } else {
       this.disallowedPattern = disallowedPattern;
     }
-
-    if (undefinedPattern == null) {
-      this.undefinedPattern = "2";
-    } else {
-      this.undefinedPattern = undefinedPattern;
-    }
   }
 
   public String getCallParserCommand() {
@@ -105,9 +96,5 @@ public class CMDArgs {
 
   public String getDisallowedPattern() {
     return disallowedPattern;
-  }
-
-  public String getUndefinedPattern() {
-    return undefinedPattern;
   }
 }
