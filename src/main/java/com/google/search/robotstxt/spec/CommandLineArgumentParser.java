@@ -35,7 +35,7 @@ public class CommandLineArgumentParser {
       description = "The path to the directory that contains the user's test files")
   public String myTestsDir = null;
 
-  @CommandLine.Option(names = "--printing", description = "The format that the parser uses")
+  @CommandLine.Option(names = "--outputType", description = "The format that the parser uses")
   public OutputType outputType = OutputType.EXITCODE;
 
   @CommandLine.Option(names = "--allowedPattern", description = "The pattern used for -allowed-")
