@@ -15,8 +15,9 @@
 package com.google.search.robotstxt.spec;
 
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
+import java.io.IOException;
 
 public interface ParserMatcher {
   public SpecificationProtos.Outcome getOutcome(
-      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs);
+      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws IOException;
 }

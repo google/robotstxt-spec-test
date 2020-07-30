@@ -34,7 +34,7 @@ public class ProtoParser {
     for (SpecificationProtos.RobotsTxtTest robotsTxtTest : robotsTxtSpec.getTestsList()) {
       String robotsTxtContent = robotsTxtTest.getRobotstxt();
 
-      for (SpecificationProtos.Expectation expectation : robotsTxtTest.getTestSituationsList()) {
+      for (SpecificationProtos.Expectation expectation : robotsTxtTest.getTestExpectationsList()) {
         TestInfo testInfo = new TestInfo(robotsTxtContent, expectation);
         testCases.add(testInfo);
       }

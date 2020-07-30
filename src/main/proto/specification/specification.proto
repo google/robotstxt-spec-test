@@ -25,7 +25,7 @@ message RobotsTxtSpecification {
 
 message RobotsTxtTest {
   optional string robotstxt = 1;
-  repeated Expectation test_situations = 2;
+  repeated Expectation test_expectations = 2;
 }
 
 enum Outcome {
