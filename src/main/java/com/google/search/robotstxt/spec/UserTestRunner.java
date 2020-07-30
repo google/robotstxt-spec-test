@@ -26,7 +26,7 @@ public class UserTestRunner implements TestRunner {
     for (TestInfo testInfo : testCases) {
       SpecificationProtos.Outcome userOutcome =
           parserMatcher.getOutcome(
-              testInfo.getRobotxtxtContent(), testInfo.getUrl(), testInfo.getUserAgent(), cmdArgs);
+              testInfo.getRobotsTxtContent(), testInfo.getUrl(), testInfo.getUserAgent(), cmdArgs);
 
       if (userOutcome == testInfo.getExpectedOutcome()) {
         result.reportSuccessUserTests();

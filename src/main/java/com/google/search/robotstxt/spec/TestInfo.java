@@ -36,7 +36,7 @@ public class TestInfo {
     this.expectation = expectation;
   }
 
-  public String getRobotxtxtContent() {
+  public String getRobotsTxtContent() {
     return robotsTxtContent;
   }
 
