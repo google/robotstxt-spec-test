@@ -97,4 +97,21 @@ public class CMDArgs {
   public String getDisallowedPattern() {
     return disallowedPattern;
   }
+
+  /**
+   * Get the specific command that will call the parser, in a specific test case
+   *
+   * @param robotsTxtPath The path to the robots.txt file
+   * @param url The URL
+   * @param userAgent The user-agent
+   * @return The command
+   */
+  public String getCommand(String robotsTxtPath, String url, String userAgent) {
+    String command;
+    command = this.callParserCommand;
+    command = command.replace("%robots%", robotsTxtPath);
+    command = command.replace("%url%", url);
+    command = command.replace("%user-agent", userAgent);
+    return command;
+  }
 }
