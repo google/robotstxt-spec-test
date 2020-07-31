@@ -14,11 +14,14 @@
 
 package com.google.search.robotstxt.spec;
 
+import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
 /** Handle Command Line arguments */
 @CommandLine.Command(name = "testRunner")
-public class CommandLineArgumentParser {
+public class CommandLineArgumentParser implements Callable {
+  public CMDArgs cmdArgs;
+
   @CommandLine.Option(
       names = "--command",
       required = true,
@@ -57,5 +60,15 @@ public class CommandLineArgumentParser {
             allowedPattern,
             disallowedPattern);
     return cmdArgs;
+  }
+
+  public CMDArgs getCmdArgs() {
+    return cmdArgs;
+  }
+
+  @Override
+  public Integer call() throws Exception {
+    this.cmdArgs = createCMDArgs();
+    return 0;
   }
 }
