@@ -17,6 +17,7 @@ package com.google.search.robotstxt.spec;
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,8 @@ public class ProtoParser {
   public List<TestInfo> readMessages(String dirPath)
       throws java.io.FileNotFoundException, java.io.IOException {
 
-    File dir = new File(dirPath);
+    URL url = getClass().getResource("CTC");
+    File dir = new File(url.getPath());
     File[] allFiles = dir.listFiles();
     List<TestInfo> testCases = new ArrayList<>();
     for (File testFile : allFiles) {
