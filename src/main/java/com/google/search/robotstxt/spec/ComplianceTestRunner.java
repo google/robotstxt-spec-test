@@ -18,6 +18,7 @@ import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 import java.io.IOException;
 import java.util.List;
 
+/** Runs Compliance Test Cases */
 public class ComplianceTestRunner implements TestRunner {
   @Override
   public void runTests(

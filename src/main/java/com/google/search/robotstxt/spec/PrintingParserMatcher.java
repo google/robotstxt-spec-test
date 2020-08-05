@@ -11,14 +11,15 @@ public class PrintingParserMatcher implements ParserMatcher {
   public SpecificationProtos.Outcome getOutcome(
       String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs)
       throws IOException, InterruptedException {
+    // Create temporary file for the robots.txt content and pass the path as argument
     File dir = new File("./src/main/resources/Temp");
-
     File robotsTxtPath = File.createTempFile("robots_", ".tmp", dir);
 
     FileWriter writer = new FileWriter(robotsTxtPath);
     writer.write(robotsTxtContent);
     writer.close();
 
+    // Run the parser
     String command =
         cmdArgs.getCommand(robotsTxtPath.getAbsolutePath(), url, "\"" + userAgent + "\"");
     Process process = Runtime.getRuntime().exec(new String[] {"/bin/sh", "-c", command});
@@ -30,10 +31,12 @@ public class PrintingParserMatcher implements ParserMatcher {
     Pattern allowedPattern = Pattern.compile(cmdArgs.getAllowedPattern());
     Pattern disallowedPattern = Pattern.compile(cmdArgs.getDisallowedPattern());
 
+    // Pattern-matching for the regular expression
     while ((line = reader.readLine()) != null) {
       Matcher allowedMatcher = allowedPattern.matcher(line);
       Matcher disallowedMatcher = disallowedPattern.matcher(line);
 
+      // Test the outcome
       if (allowedMatcher.find()) {
         return SpecificationProtos.Outcome.ALLOWED;
       } else if (disallowedMatcher.find()) {

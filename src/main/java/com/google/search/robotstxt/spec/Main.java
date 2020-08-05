@@ -49,9 +49,8 @@ public class Main implements Callable<Integer> {
   public String disallowedPattern = "1";
 
   public static void main(String[] args) throws IOException, InterruptedException {
-    // Here I should parse the command line arguments, as soon as I figure out how :)
     int exitCode = new CommandLine(new Main()).execute(args);
-    System.exit(0);
+    System.exit(exitCode);
   }
 
   @Override
@@ -65,6 +64,7 @@ public class Main implements Callable<Integer> {
             allowedPattern,
             disallowedPattern);
 
+    // Decide the output type
     ParserMatcher parserMatcher;
     if (cmdArgs.getMode() == OutputType.PRINTING) {
       parserMatcher = new PrintingParserMatcher();
@@ -77,10 +77,12 @@ public class Main implements Callable<Integer> {
     List<TestInfo> testCases;
     TestRunner testRunner;
 
+    // Read and run the Compliance Test Cases
     testCases = protoParser.readMessages(cmdArgs.getComplianceTestsDir());
     testRunner = new ComplianceTestRunner();
     testRunner.runTests(testCases, parserMatcher, cmdArgs, result);
 
+    // Read and run the User Test Cases
     if (cmdArgs.getMyTestsDir() != null) {
       testCases = protoParser.readMessages(cmdArgs.getMyTestsDir());
       testRunner = new UserTestRunner();

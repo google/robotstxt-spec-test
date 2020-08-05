@@ -18,6 +18,7 @@ import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 import java.io.IOException;
 import java.util.List;
 
+/** Runs User Test Cases */
 public class UserTestRunner implements TestRunner {
   @Override
   public void runTests(

@@ -59,6 +59,7 @@ public class ProtoParser {
     for (File testFile : allFiles) {
       String text = new String(Files.readAllBytes(testFile.toPath()), StandardCharsets.UTF_8);
 
+      // Parse the proto content
       SpecificationProtos.RobotsTxtSpecification.Builder builder =
           SpecificationProtos.RobotsTxtSpecification.newBuilder();
       TextFormat.merge(text, builder);
