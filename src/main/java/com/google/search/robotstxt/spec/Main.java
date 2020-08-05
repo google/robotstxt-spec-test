@@ -16,14 +16,54 @@ package com.google.search.robotstxt.spec;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
-public class Main {
+@CommandLine.Command(name = "testRunner")
+public class Main implements Callable<Integer> {
+  @CommandLine.Option(
+      names = "--command",
+      required = true,
+      description = "The command that runs the parser")
+  public String callParserCommand;
+
+  @CommandLine.Option(
+      names = "--testDir",
+      description = "The path to the directory that contains the Compliance Test Files")
+  public String complianceTestsDir = "/CTC";
+
+  @CommandLine.Option(
+      names = "--userTestDir",
+      description = "The path to the directory that contains the user's test files")
+  public String myTestsDir = null;
+
+  @CommandLine.Option(names = "--outputType", description = "The format that the parser uses")
+  public OutputType outputType = OutputType.EXITCODE;
+
+  @CommandLine.Option(names = "--allowedPattern", description = "The pattern used for -allowed-")
+  public String allowedPattern = "0";
+
+  @CommandLine.Option(
+      names = "--disallowedPattern",
+      description = "The pattern used for -disallowed-")
+  public String disallowedPattern = "1";
+
   public static void main(String[] args) throws IOException, InterruptedException {
     // Here I should parse the command line arguments, as soon as I figure out how :)
-    CommandLineArgumentParser commandLineArgumentParser = new CommandLineArgumentParser();
-    int exitCode = new CommandLine(commandLineArgumentParser).execute(args);
-    CMDArgs cmdArgs = commandLineArgumentParser.getCmdArgs();
+    int exitCode = new CommandLine(new Main()).execute(args);
+    System.exit(0);
+  }
+
+  @Override
+  public Integer call() throws Exception {
+    CMDArgs cmdArgs =
+        new CMDArgs(
+            callParserCommand,
+            complianceTestsDir,
+            myTestsDir,
+            outputType,
+            allowedPattern,
+            disallowedPattern);
 
     ParserMatcher parserMatcher;
     if (cmdArgs.getMode() == OutputType.PRINTING) {
@@ -31,6 +71,7 @@ public class Main {
     } else {
       parserMatcher = new ExitcodeParserMatcher();
     }
+
     ProtoParser protoParser = new ProtoParser();
     TestsResult result = new TestsResult();
     List<TestInfo> testCases;
@@ -47,5 +88,6 @@ public class Main {
     }
 
     System.out.println(result);
+    return 0;
   }
 }
