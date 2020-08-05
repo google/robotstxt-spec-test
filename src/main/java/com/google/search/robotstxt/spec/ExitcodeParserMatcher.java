@@ -22,12 +22,13 @@ public class ExitcodeParserMatcher implements ParserMatcher {
     String command =
         cmdArgs.getCommand(robotsTxtPath.getAbsolutePath(), url, "\"" + userAgent + "\"");
     Process process = Runtime.getRuntime().exec(new String[] {"/bin/sh", "-c", command});
-
     process.waitFor();
-    int exitCode = process.exitValue();
-    if (Integer.toString(exitCode).equals(cmdArgs.getAllowedPattern())) {
+
+    // We convert the exitCode to a String because this is how it's represented in cmdArgs
+    String exitCode = Integer.toString(process.exitValue());
+    if (exitCode.equals(cmdArgs.getAllowedPattern())) {
       return SpecificationProtos.Outcome.ALLOWED;
-    } else if (Integer.toString(exitCode).equals(cmdArgs.getDisallowedPattern())) {
+    } else if (exitCode.equals(cmdArgs.getDisallowedPattern())) {
       return SpecificationProtos.Outcome.DISALLOWED;
     }
     return SpecificationProtos.Outcome.UNSPECIFIED;

@@ -107,8 +107,7 @@ public class CMDArgs {
    * @return The command
    */
   public String getCommand(String robotsTxtPath, String url, String userAgent) {
-    String command;
-    command = this.callParserCommand;
+    String command = this.callParserCommand;
     command = command.replace("%robots%", robotsTxtPath);
     command = command.replace("%url%", url);
     command = command.replace("%user-agent%", userAgent);

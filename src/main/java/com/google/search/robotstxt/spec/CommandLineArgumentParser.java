@@ -19,7 +19,7 @@ import picocli.CommandLine;
 
 /** Handle Command Line arguments */
 @CommandLine.Command(name = "testRunner")
-public class CommandLineArgumentParser implements Callable {
+public class CommandLineArgumentParser implements Callable<Integer> {
   public CMDArgs cmdArgs;
 
   @CommandLine.Option(
