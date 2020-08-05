@@ -1,28 +1,42 @@
 package com.google.search.robotstxt.spec;
 
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** Handles a parser that outputs its outcome by printing at stdout */
 public class PrintingParserMatcher implements ParserMatcher {
   @Override
   public SpecificationProtos.Outcome getOutcome(
-      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws IOException {
-    Path robotsTxtPath = Files.createTempFile(null, null, null);
+      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs)
+      throws IOException, InterruptedException {
+    File dir = new File("./src/main/resources/Temp");
 
-    Process process =
-        Runtime.getRuntime().exec(cmdArgs.getCommand(robotsTxtPath.toString(), url, userAgent));
+    File robotsTxtPath = File.createTempFile("robots_", ".tmp", dir);
+
+    FileWriter writer = new FileWriter(robotsTxtPath);
+    writer.write(robotsTxtContent);
+    writer.close();
+
+    String command =
+        cmdArgs.getCommand(robotsTxtPath.getAbsolutePath(), url, "\"" + userAgent + "\"");
+    Process process = Runtime.getRuntime().exec(new String[] {"/bin/sh", "-c", command});
+    process.waitFor();
 
     BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
     String line = "";
+
+    Pattern allowedPattern = Pattern.compile(cmdArgs.getAllowedPattern());
+    Pattern disallowedPattern = Pattern.compile(cmdArgs.getDisallowedPattern());
+
     while ((line = reader.readLine()) != null) {
-      if (line.contains(cmdArgs.getAllowedPattern())) {
+      Matcher allowedMatcher = allowedPattern.matcher(line);
+      Matcher disallowedMatcher = disallowedPattern.matcher(line);
+
+      if (allowedMatcher.find()) {
         return SpecificationProtos.Outcome.ALLOWED;
-      } else if (line.contains(cmdArgs.getDisallowedPattern())) {
+      } else if (disallowedMatcher.find()) {
         return SpecificationProtos.Outcome.DISALLOWED;
       }
     }

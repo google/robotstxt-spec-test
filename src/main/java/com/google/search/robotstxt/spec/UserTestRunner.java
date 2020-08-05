@@ -22,7 +22,7 @@ public class UserTestRunner implements TestRunner {
   @Override
   public void runTests(
       List<TestInfo> testCases, ParserMatcher parserMatcher, CMDArgs cmdArgs, TestsResult result)
-      throws IOException {
+      throws IOException, InterruptedException {
     for (TestInfo testInfo : testCases) {
       SpecificationProtos.Outcome userOutcome =
           parserMatcher.getOutcome(

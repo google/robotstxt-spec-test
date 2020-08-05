@@ -44,6 +44,7 @@ public class CMDArgs {
       String allowedPattern,
       String disallowedPattern) {
     this.callParserCommand = callParserCommand;
+    this.callParserCommand = this.callParserCommand.replace("~", System.getProperty("user.home"));
 
     if (complianceTestsDir == null) {
       this.complianceTestsDir =
@@ -52,7 +53,6 @@ public class CMDArgs {
     } else {
       this.complianceTestsDir = complianceTestsDir;
     }
-
     this.myTestsDir = myTestsDir;
 
     if (mode == null) {
@@ -111,7 +111,7 @@ public class CMDArgs {
     command = this.callParserCommand;
     command = command.replace("%robots%", robotsTxtPath);
     command = command.replace("%url%", url);
-    command = command.replace("%user-agent", userAgent);
+    command = command.replace("%user-agent%", userAgent);
     return command;
   }
 }

@@ -19,5 +19,6 @@ import java.io.IOException;
 
 public interface ParserMatcher {
   public SpecificationProtos.Outcome getOutcome(
-      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws IOException;
+      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs)
+      throws IOException, InterruptedException;
 }

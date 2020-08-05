@@ -20,5 +20,5 @@ import java.util.List;
 public interface TestRunner {
   public void runTests(
       List<TestInfo> testCases, ParserMatcher parserMatcher, CMDArgs cmdArgs, TestsResult result)
-      throws IOException;
+      throws IOException, InterruptedException;
 }

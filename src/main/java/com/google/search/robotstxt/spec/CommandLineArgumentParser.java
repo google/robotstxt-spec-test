@@ -31,7 +31,7 @@ public class CommandLineArgumentParser implements Callable {
   @CommandLine.Option(
       names = "--testDir",
       description = "The path to the directory that contains the Compliance Test Files")
-  public String complianceTestsDir = "CTC";
+  public String complianceTestsDir = "/CTC";
 
   @CommandLine.Option(
       names = "--userTestDir",

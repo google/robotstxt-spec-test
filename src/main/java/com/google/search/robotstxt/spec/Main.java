@@ -19,7 +19,7 @@ import java.util.List;
 import picocli.CommandLine;
 
 public class Main {
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, InterruptedException {
     // Here I should parse the command line arguments, as soon as I figure out how :)
     CommandLineArgumentParser commandLineArgumentParser = new CommandLineArgumentParser();
     int exitCode = new CommandLine(commandLineArgumentParser).execute(args);
@@ -31,7 +31,6 @@ public class Main {
     } else {
       parserMatcher = new ExitcodeParserMatcher();
     }
-
     ProtoParser protoParser = new ProtoParser();
     TestsResult result = new TestsResult();
     List<TestInfo> testCases;
@@ -41,9 +40,11 @@ public class Main {
     testRunner = new ComplianceTestRunner();
     testRunner.runTests(testCases, parserMatcher, cmdArgs, result);
 
-    testCases = protoParser.readMessages(cmdArgs.getMyTestsDir());
-    testRunner = new UserTestRunner();
-    testRunner.runTests(testCases, parserMatcher, cmdArgs, result);
+    if (cmdArgs.getMyTestsDir() != null) {
+      testCases = protoParser.readMessages(cmdArgs.getMyTestsDir());
+      testRunner = new UserTestRunner();
+      testRunner.runTests(testCases, parserMatcher, cmdArgs, result);
+    }
 
     System.out.println(result);
   }
