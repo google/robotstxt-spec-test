@@ -51,9 +51,12 @@ public class ProtoParser {
    */
   public List<TestInfo> readMessages(String dirPath)
       throws java.io.FileNotFoundException, java.io.IOException {
-
-    // URL url = getClass().getResource("/CTC");
-    File dir = new File(getClass().getResource("/CTC").getFile());
+    File dir;
+    if (dirPath.equals("/CTC")) {
+      dir = new File(getClass().getResource(dirPath).getFile());
+    } else {
+      dir = new File(dirPath);
+    }
     File[] allFiles = dir.listFiles();
     List<TestInfo> testCases = new ArrayList<>();
     for (File testFile : allFiles) {

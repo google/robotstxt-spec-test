@@ -28,11 +28,6 @@ public class Main implements Callable<Integer> {
   public String callParserCommand;
 
   @CommandLine.Option(
-      names = "--testDir",
-      description = "The path to the directory that contains the Compliance Test Files")
-  public String complianceTestsDir = "/CTC";
-
-  @CommandLine.Option(
       names = "--userTestDir",
       description = "The path to the directory that contains the user's test files")
   public String myTestsDir = null;
@@ -56,13 +51,10 @@ public class Main implements Callable<Integer> {
   @Override
   public Integer call() throws Exception {
     CMDArgs cmdArgs =
-        new CMDArgs(
-            callParserCommand,
-            complianceTestsDir,
-            myTestsDir,
-            outputType,
-            allowedPattern,
-            disallowedPattern);
+        new CMDArgs(callParserCommand, myTestsDir, outputType, allowedPattern, disallowedPattern);
+    if (cmdArgs.invalidArguments()) {
+      return 1;
+    }
 
     // Decide the output type
     ParserMatcher parserMatcher;
@@ -78,7 +70,7 @@ public class Main implements Callable<Integer> {
     TestRunner testRunner;
 
     // Read and run the Compliance Test Cases
-    testCases = protoParser.readMessages(cmdArgs.getComplianceTestsDir());
+    testCases = protoParser.readMessages("/CTC");
     testRunner = new ComplianceTestRunner();
     testRunner.runTests(testCases, parserMatcher, cmdArgs, result);
 

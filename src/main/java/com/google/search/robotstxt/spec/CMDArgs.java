@@ -14,10 +14,11 @@
 
 package com.google.search.robotstxt.spec;
 
+import java.io.File;
+
 /** Flags setup by Command Line Options */
 public class CMDArgs {
   private String callParserCommand;
-  private String complianceTestsDir;
   private String myTestsDir;
   private OutputType mode;
   private String allowedPattern;
@@ -30,7 +31,6 @@ public class CMDArgs {
    * Constructor with parameters
    *
    * @param callParserCommand The command that calls the parser
-   * @param complianceTestsDir The directory of the Compliance Tests
    * @param myTestsDir The directory of the user's tests
    * @param mode The output mode
    * @param allowedPattern The allowed pattern (regular expression)
@@ -38,7 +38,6 @@ public class CMDArgs {
    */
   public CMDArgs(
       String callParserCommand,
-      String complianceTestsDir,
       String myTestsDir,
       OutputType mode,
       String allowedPattern,
@@ -46,14 +45,8 @@ public class CMDArgs {
     this.callParserCommand = callParserCommand;
     this.callParserCommand = this.callParserCommand.replace("~", System.getProperty("user.home"));
 
-    if (complianceTestsDir == null) {
-      this.complianceTestsDir =
-          "CTC"; // We should find another way to access the "home directory" of
-      // the app
-    } else {
-      this.complianceTestsDir = complianceTestsDir;
-    }
     this.myTestsDir = myTestsDir;
+    this.myTestsDir = this.myTestsDir.replace("~", System.getProperty("user.home"));
 
     if (mode == null) {
       this.mode = OutputType.EXITCODE;
@@ -78,10 +71,6 @@ public class CMDArgs {
     return callParserCommand;
   }
 
-  public String getComplianceTestsDir() {
-    return complianceTestsDir;
-  }
-
   public String getMyTestsDir() {
     return myTestsDir;
   }
@@ -96,6 +85,46 @@ public class CMDArgs {
 
   public String getDisallowedPattern() {
     return disallowedPattern;
+  }
+
+  public boolean invalidArguments() {
+    if (callParserCommand.contains("%robots%") == false
+        || callParserCommand.contains("%url%") == false
+        || callParserCommand.contains("%user-agent%") == false) {
+      System.out.println("[INVALID ARGUMENTS]");
+      System.out.println(
+          "One or more of the parameter variables {%robots% %url% %user-agent%} are missing.");
+      System.out.println(
+          "For further details on how to run the testing tool, please check the documentation!");
+      return true;
+    }
+    if (myTestsDir != null && new File(myTestsDir).isDirectory() == false) {
+      System.out.println("[INVALID ARGUMENTS]");
+      System.out.println("The directory " + myTestsDir + " does not exist!");
+      return true;
+    }
+    if (mode == OutputType.EXITCODE) {
+      try {
+        int exitPattern = Integer.parseInt(allowedPattern);
+        exitPattern = Integer.parseInt(disallowedPattern);
+      } catch (NumberFormatException numberFormatException) {
+        System.out.println("[INVALID ARGUMENTS]");
+        System.out.println("The exit code pattern must be an integer between 0 and 255.");
+        return true;
+      }
+
+      if (Integer.parseInt(allowedPattern) < 0 || Integer.parseInt(disallowedPattern) < 0) {
+        System.out.println("[INVALID ARGUMENTS]");
+        System.out.println("The exit code pattern must be an integer between 0 and 255.");
+        return true;
+      }
+    }
+    if (allowedPattern.equals(disallowedPattern)) {
+      System.out.println("[INVALID ARGUMENTS]");
+      System.out.println("The allowed and disallowed patterns must not be the same.");
+      return true;
+    }
+    return false;
   }
 
   /**
