@@ -15,6 +15,7 @@
 package com.google.search.robotstxt.spec;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 
 /** Flags setup by Command Line Options */
@@ -137,11 +138,18 @@ public class CMDArgs {
    * @param userAgent The user-agent
    * @return The command
    */
-  public String getCommand(String robotsTxtPath, String url, String userAgent) {
+  private String getCommand(String robotsTxtPath, String url, String userAgent) {
     String command = this.callParserCommand;
     command = command.replace("%robots%", robotsTxtPath);
     command = command.replace("%url%", url);
     command = command.replace("%user-agent%", userAgent);
     return command;
+  }
+
+  public Process runParser(File robotsTxtPath, String url, String userAgent) throws IOException {
+    String command = this.getCommand(robotsTxtPath.getAbsolutePath(), url, "\"" + userAgent + "\"");
+    Process process = Runtime.getRuntime().exec(new String[] {"/bin/sh", "-c", command});
+
+    return process;
   }
 }

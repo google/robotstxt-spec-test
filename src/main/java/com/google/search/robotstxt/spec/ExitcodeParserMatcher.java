@@ -31,9 +31,7 @@ public class ExitcodeParserMatcher implements ParserMatcher {
     Files.asCharSink(robotsTxtPath, Charsets.UTF_8).write(robotsTxtContent);
 
     // Run the parser
-    String command =
-        cmdArgs.getCommand(robotsTxtPath.getAbsolutePath(), url, "\"" + userAgent + "\"");
-    Process process = Runtime.getRuntime().exec(new String[] {"/bin/sh", "-c", command});
+    Process process = cmdArgs.runParser(robotsTxtPath, url, userAgent);
     process.waitFor();
 
     // Convert the exitCode to a String because this is how it's represented in cmdArgs

@@ -71,19 +71,15 @@ public class Main implements Callable<Integer> {
 
     ProtoParser protoParser = new ProtoParser();
     TestsResult result = new TestsResult();
-    List<TestInfo> testCases;
-    TestRunner testRunner;
 
     // Read and run the Compliance Test Cases
-    testCases = protoParser.readMessages("/CTC");
-    testRunner = new ComplianceTestRunner();
-    testRunner.runTests(testCases, parserMatcher, cmdArgs, result);
+    List<TestInfo> complianceTestCases = protoParser.readMessages("/CTC");
+    new ComplianceTestRunner().runTests(complianceTestCases, parserMatcher, cmdArgs, result);
 
     // Read and run the User Test Cases
     if (cmdArgs.getMyTestsDir() != null) {
-      testCases = protoParser.readMessages(cmdArgs.getMyTestsDir());
-      testRunner = new UserTestRunner();
-      testRunner.runTests(testCases, parserMatcher, cmdArgs, result);
+      List<TestInfo> userTestCases = protoParser.readMessages(cmdArgs.getMyTestsDir());
+      new UserTestRunner().runTests(userTestCases, parserMatcher, cmdArgs, result);
     }
 
     System.out.println(result);
