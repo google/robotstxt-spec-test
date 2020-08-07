@@ -53,7 +53,11 @@ public class Main implements Callable<Integer> {
   public Integer call() throws Exception {
     CMDArgs cmdArgs =
         new CMDArgs(callParserCommand, myTestsDir, outputType, allowedPattern, disallowedPattern);
-    if (cmdArgs.invalidArguments()) {
+
+    try {
+      cmdArgs.validateArguments();
+    } catch (IllegalArgumentException e) {
+      System.err.println(e.toString());
       return 1;
     }
 

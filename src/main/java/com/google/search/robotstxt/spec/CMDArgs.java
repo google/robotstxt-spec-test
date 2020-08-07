@@ -92,44 +92,41 @@ public class CMDArgs {
     return disallowedPattern;
   }
 
-  public boolean invalidArguments() {
-    if (callParserCommand.contains("%robots%") == false
-        || callParserCommand.contains("%url%") == false
-        || callParserCommand.contains("%user-agent%") == false) {
-      System.out.println("[INVALID ARGUMENTS]");
-      System.out.println(
-          "One or more of the parameter variables {%robots% %url% %user-agent%} are missing.");
-      System.out.println(
-          "For further details on how to run the testing tool, please check the documentation!");
-      return true;
+  private void validateAsExitcode(String value, String flagname) {
+    try {
+      int exitPattern = Integer.parseInt(value);
+    } catch (NumberFormatException numberFormatException) {
+      throw new IllegalArgumentException(
+          flagname + ": The exit code number must be an integer between 0 and 255");
     }
-    if (myTestsDir != null && new File(myTestsDir).isDirectory() == false) {
-      System.out.println("[INVALID ARGUMENTS]");
-      System.out.println("The directory " + myTestsDir + " does not exist!");
-      return true;
-    }
-    if (mode == OutputType.EXITCODE) {
-      try {
-        int exitPattern = Integer.parseInt(allowedPattern);
-        exitPattern = Integer.parseInt(disallowedPattern);
-      } catch (NumberFormatException numberFormatException) {
-        System.out.println("[INVALID ARGUMENTS]");
-        System.out.println("The exit code pattern must be an integer between 0 and 255.");
-        return true;
-      }
 
-      if (Integer.parseInt(allowedPattern) < 0 || Integer.parseInt(disallowedPattern) < 0) {
-        System.out.println("[INVALID ARGUMENTS]");
-        System.out.println("The exit code pattern must be an integer between 0 and 255.");
-        return true;
-      }
+    if (Integer.parseInt(value) < 0) {
+      throw new IllegalArgumentException(
+          flagname + ": The exit code number must be an integer between 0 and 255");
     }
+  }
+
+  public void validateArguments() {
+    if (!callParserCommand.contains("%robots%")
+        || !callParserCommand.contains("%url%")
+        || !callParserCommand.contains("%user-agent%")) {
+      throw new IllegalArgumentException(
+          "One or more of the parameter variables {%robots% %url% %user-agent%} are missing.");
+    }
+
+    if (myTestsDir != null && !(new File(myTestsDir).isDirectory())) {
+      throw new IllegalArgumentException("The directory \'" + myTestsDir + "\' does not exist!");
+    }
+
+    if (mode == OutputType.EXITCODE) {
+      validateAsExitcode(allowedPattern, "allowedPattern");
+      validateAsExitcode(disallowedPattern, "disallowedPattern");
+    }
+
     if (allowedPattern.equals(disallowedPattern)) {
-      System.out.println("[INVALID ARGUMENTS]");
-      System.out.println("The allowed and disallowed patterns must not be the same.");
-      return true;
+      throw new IllegalArgumentException(
+          "The allowed and disallowed patterns must not be the same.");
     }
-    return false;
   }
 
   /**
