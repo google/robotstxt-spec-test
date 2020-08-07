@@ -70,7 +70,8 @@ public class TestsResult {
   @Override
   public String toString() {
     String result =
-        "TEST RESULTS: \n\n"
+        "TEST RESULTS:"
+            + "\n"
             + "Number of Compliance Tests: "
             + this.totalNumberComplianceTests
             + "\nNumber of Compliance Tests Failed: "
@@ -81,9 +82,9 @@ public class TestsResult {
             + this.numberFailedUserTests;
 
     if (this.numberFailedComplianceTests == 0) {
-      result = result + "\n\nThe parser FOLLOWS the standard";
+      result = result + "\n\n" + "The parser FOLLOWS the standard";
     } else {
-      result = result + "\n\nThe parser DOES NOT FOLLOW the standard";
+      result = result + "\n\n" + "The parser DOES NOT FOLLOW the standard";
     }
 
     return result;

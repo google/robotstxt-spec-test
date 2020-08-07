@@ -37,10 +37,10 @@ public class PrintingParserMatcher implements ParserMatcher {
       Matcher disallowedMatcher = disallowedPattern.matcher(line);
 
       // Test the outcome
-      if (allowedMatcher.find()) {
-        return SpecificationProtos.Outcome.ALLOWED;
-      } else if (disallowedMatcher.find()) {
+      if (disallowedMatcher.find()) {
         return SpecificationProtos.Outcome.DISALLOWED;
+      } else if (allowedMatcher.find()) {
+        return SpecificationProtos.Outcome.ALLOWED;
       }
     }
     return SpecificationProtos.Outcome.UNSPECIFIED;

@@ -57,7 +57,7 @@ public class TestInfo {
   }
 
   public String toString() {
-    return "The robots.txt content: \n\n"
+    return "The robots.txt content: \n"
         + this.robotsTxtContent
         + "\n\n"
         + "The URL: "
@@ -70,7 +70,6 @@ public class TestInfo {
         + this.expectation.getExpectedOutcome()
         + "\n"
         + "The additional explanation: "
-        + this.expectation.getAdditionalExplanation()
-        + "\n";
+        + this.expectation.getAdditionalExplanation();
   }
 }

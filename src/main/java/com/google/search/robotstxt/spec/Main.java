@@ -21,6 +21,7 @@ import picocli.CommandLine;
 
 @CommandLine.Command(name = "testRunner")
 public class Main implements Callable<Integer> {
+
   @CommandLine.Option(
       names = "--command",
       required = true,

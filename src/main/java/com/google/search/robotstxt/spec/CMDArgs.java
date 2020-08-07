@@ -15,6 +15,7 @@
 package com.google.search.robotstxt.spec;
 
 import java.io.File;
+import java.util.regex.Matcher;
 
 /** Flags setup by Command Line Options */
 public class CMDArgs {
@@ -43,10 +44,14 @@ public class CMDArgs {
       String allowedPattern,
       String disallowedPattern) {
     this.callParserCommand = callParserCommand;
-    this.callParserCommand = this.callParserCommand.replace("~", System.getProperty("user.home"));
+    this.callParserCommand =
+        this.callParserCommand.replaceFirst(
+            "^~/", Matcher.quoteReplacement(System.getProperty("user.home") + "/"));
 
     this.myTestsDir = myTestsDir;
-    this.myTestsDir = this.myTestsDir.replace("~", System.getProperty("user.home"));
+    this.myTestsDir =
+        this.myTestsDir.replaceFirst(
+            "^~/", Matcher.quoteReplacement(System.getProperty("user.home") + "/"));
 
     if (mode == null) {
       this.mode = OutputType.EXITCODE;
