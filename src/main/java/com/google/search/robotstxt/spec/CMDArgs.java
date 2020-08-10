@@ -138,17 +138,26 @@ public class CMDArgs {
    * @param userAgent The user-agent
    * @return The command
    */
-  private String getCommand(String robotsTxtPath, String url, String userAgent) {
+  private String[] getCommand(String robotsTxtPath, String url, String userAgent) {
     String command = this.callParserCommand;
-    command = command.replace("%robots%", robotsTxtPath);
-    command = command.replace("%url%", url);
-    command = command.replace("%user-agent%", userAgent);
-    return command;
+    String[] args = command.split(" ");
+    int lengthArgs = args.length;
+    String[] newArgs = new String[lengthArgs];
+    int i = 0;
+    for (String arg : args) {
+      arg = arg.replace("%robots%", robotsTxtPath);
+      arg = arg.replace("%url%", url);
+      arg = arg.replace("%user-agent%", userAgent);
+      newArgs[i] = arg;
+      i++;
+    }
+
+    return newArgs;
   }
 
   public Process runParser(File robotsTxtPath, String url, String userAgent) throws IOException {
-    String command = this.getCommand(robotsTxtPath.getAbsolutePath(), url, "\"" + userAgent + "\"");
-    Process process = Runtime.getRuntime().exec(new String[] {"/bin/sh", "-c", command});
+    String[] command = this.getCommand(robotsTxtPath.getAbsolutePath(), url, userAgent);
+    Process process = Runtime.getRuntime().exec(command);
 
     return process;
   }
