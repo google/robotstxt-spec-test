@@ -15,8 +15,8 @@
 package com.google.search.robotstxt.spec;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.regex.Matcher;
+import org.apache.maven.shared.utils.cli.CommandLineUtils;
 
 /** Flags setup by Command Line Options */
 public class CMDArgs {
@@ -138,11 +138,10 @@ public class CMDArgs {
    * @param userAgent The user-agent
    * @return The command
    */
-  private String[] getCommand(String robotsTxtPath, String url, String userAgent) {
+  private String[] getCommand(String robotsTxtPath, String url, String userAgent) throws Exception {
     String command = this.callParserCommand;
-    String[] args = command.split(" ");
-    int lengthArgs = args.length;
-    String[] newArgs = new String[lengthArgs];
+    String[] args = CommandLineUtils.translateCommandline(command);
+    String[] newArgs = new String[args.length];
     int i = 0;
     for (String arg : args) {
       arg = arg.replace("%robots%", robotsTxtPath);
@@ -155,7 +154,7 @@ public class CMDArgs {
     return newArgs;
   }
 
-  public Process runParser(File robotsTxtPath, String url, String userAgent) throws IOException {
+  public Process runParser(File robotsTxtPath, String url, String userAgent) throws Exception {
     String[] command = this.getCommand(robotsTxtPath.getAbsolutePath(), url, userAgent);
     Process process = Runtime.getRuntime().exec(command);
 

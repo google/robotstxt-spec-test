@@ -15,7 +15,6 @@
 package com.google.search.robotstxt.spec;
 
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
-import java.io.IOException;
 import java.util.List;
 
 /** Runs Compliance Test Cases */
@@ -23,7 +22,7 @@ public class ComplianceTestRunner implements TestRunner {
   @Override
   public void runTests(
       List<TestInfo> testCases, ParserMatcher parserMatcher, CMDArgs cmdArgs, TestsResult result)
-      throws IOException, InterruptedException {
+      throws Exception {
     for (TestInfo testInfo : testCases) {
       SpecificationProtos.Outcome userOutcome =
           parserMatcher.getOutcome(

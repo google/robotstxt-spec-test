@@ -25,8 +25,7 @@ import java.util.regex.Pattern;
 public class PrintingParserMatcher implements ParserMatcher {
   @Override
   public SpecificationProtos.Outcome getOutcome(
-      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs)
-      throws IOException, InterruptedException {
+      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws Exception {
     // Create temporary file for the robots.txt content and pass the path as argument
     File robotsTxtPath = File.createTempFile("robots_", ".tmp.txt");
     Files.asCharSink(robotsTxtPath, Charsets.UTF_8).write(robotsTxtContent);

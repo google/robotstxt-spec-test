@@ -18,14 +18,12 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 import java.io.File;
-import java.io.IOException;
 
 /** Handles a parser that outputs its outcome by exiting with a specific code */
 public class ExitcodeParserMatcher implements ParserMatcher {
   @Override
   public SpecificationProtos.Outcome getOutcome(
-      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs)
-      throws IOException, InterruptedException {
+      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws Exception {
     // Create temporary file for the robots.txt content and pass the path as argument
     File robotsTxtPath = File.createTempFile("robots_", ".tmp.txt");
     Files.asCharSink(robotsTxtPath, Charsets.UTF_8).write(robotsTxtContent);
