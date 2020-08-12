@@ -94,14 +94,15 @@ public class CMDArgs {
   }
 
   private void validateAsExitcode(String value, String flagname) {
+    int exitCode;
     try {
-      int exitPattern = Integer.parseInt(value);
+      exitCode = Integer.parseInt(value);
     } catch (NumberFormatException numberFormatException) {
       throw new IllegalArgumentException(
           flagname + ": The exit code number must be an integer between 0 and 255");
     }
 
-    if (Integer.parseInt(value) < 0) {
+    if (exitCode < 0 || exitCode > 255) {
       throw new IllegalArgumentException(
           flagname + ": The exit code number must be an integer between 0 and 255");
     }
@@ -141,17 +142,13 @@ public class CMDArgs {
   private String[] getCommand(String robotsTxtPath, String url, String userAgent) throws Exception {
     String command = this.callParserCommand;
     String[] args = CommandLineUtils.translateCommandline(command);
-    String[] newArgs = new String[args.length];
-    int i = 0;
-    for (String arg : args) {
-      arg = arg.replace("%robots%", robotsTxtPath);
-      arg = arg.replace("%url%", url);
-      arg = arg.replace("%user-agent%", userAgent);
-      newArgs[i] = arg;
-      i++;
+    for (int i = 0; i < args.length; i++) {
+      args[i] = args[i].replace("%robots%", robotsTxtPath);
+      args[i] = args[i].replace("%url%", url);
+      args[i] = args[i].replace("%user-agent%", userAgent);
     }
 
-    return newArgs;
+    return args;
   }
 
   public Process runParser(File robotsTxtPath, String url, String userAgent) throws Exception {
