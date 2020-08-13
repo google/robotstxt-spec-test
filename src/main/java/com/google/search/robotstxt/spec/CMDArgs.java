@@ -42,11 +42,12 @@ public class CMDArgs {
       String allowedPattern,
       String disallowedPattern) {
     this.callParserCommand = callParserCommand;
+    this.myTestsDir = myTestsDir;
+
+    // "~/" will be interpreted as the home directory of the user
     this.callParserCommand =
         this.callParserCommand.replaceFirst(
             "^~/", Matcher.quoteReplacement(System.getProperty("user.home") + "/"));
-
-    this.myTestsDir = myTestsDir;
     if (this.myTestsDir != null) {
       this.myTestsDir =
           this.myTestsDir.replaceFirst(
@@ -92,6 +93,12 @@ public class CMDArgs {
     return disallowedPattern;
   }
 
+  /**
+   * Check if the exit code provided by the user is valid
+   *
+   * @param value The value of the exit code
+   * @param flagname The name of the parameter (allowed / disallowed)
+   */
   private void validateAsExitcode(String value, String flagname) {
     int exitCode;
     try {
@@ -107,6 +114,7 @@ public class CMDArgs {
     }
   }
 
+  /** Check if the arguments provided by the user are valid */
   public void validateArguments() {
     if (!callParserCommand.contains("%robots%")
         || !callParserCommand.contains("%url%")
@@ -150,6 +158,15 @@ public class CMDArgs {
     return args;
   }
 
+  /**
+   * Run the parser against a specific test case
+   *
+   * @param robotsTxtPath The path to the robots.txt file
+   * @param url The URL
+   * @param userAgent The user-agent
+   * @return The process created by running the parser
+   * @throws Exception
+   */
   public Process runParser(File robotsTxtPath, String url, String userAgent) throws Exception {
     String[] command = this.getCommand(robotsTxtPath.getAbsolutePath(), url, userAgent);
     Process process = Runtime.getRuntime().exec(command);

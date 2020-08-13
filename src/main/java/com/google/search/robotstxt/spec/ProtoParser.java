@@ -57,6 +57,7 @@ public class ProtoParser {
     } else {
       dir = new File(dirPath);
     }
+
     File[] allFiles = dir.listFiles();
     List<TestInfo> testCases = new ArrayList<>();
     for (File testFile : allFiles) {
