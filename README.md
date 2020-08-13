@@ -70,7 +70,7 @@ The command line arguments that are used by the testing framework must be specif
 ```
 The parser must receive as arguments: the robots.txt file, the URL, the user-agent. The actual place inside the command that calls the parser will be specified by using the variables `%robots%`, `%url%`, `%user-agent%`. 
 
-The format of the calling command shoould be: `$ <run_parser> [...] %robots% [...] %url% [...] %user-agent%`. An example of such command could be: `./parser arg0 %url% arg1 %user-agent% --robotsPath=%robots%`.
+The format of the calling command shoould be: `$ <run_parser> [...] %robots% [...] %url% [...] %user-agent%`. An example of such command could be: `$ ./parser arg0 %url% arg1 %user-agent% --robotsPath=%robots%`.
 
 Also, the parser must exit with an exit code or must print at Standard Output a specific message for the outcome of the test.
 
