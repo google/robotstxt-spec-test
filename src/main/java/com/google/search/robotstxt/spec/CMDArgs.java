@@ -26,9 +26,6 @@ public class CMDArgs {
   private String allowedPattern;
   private String disallowedPattern;
 
-  /** Default constructor */
-  public CMDArgs() {}
-
   /**
    * Constructor with parameters
    *
@@ -50,9 +47,11 @@ public class CMDArgs {
             "^~/", Matcher.quoteReplacement(System.getProperty("user.home") + "/"));
 
     this.myTestsDir = myTestsDir;
-    this.myTestsDir =
-        this.myTestsDir.replaceFirst(
-            "^~/", Matcher.quoteReplacement(System.getProperty("user.home") + "/"));
+    if (this.myTestsDir != null) {
+      this.myTestsDir =
+          this.myTestsDir.replaceFirst(
+              "^~/", Matcher.quoteReplacement(System.getProperty("user.home") + "/"));
+    }
 
     if (mode == null) {
       this.mode = OutputType.EXITCODE;
