@@ -47,8 +47,27 @@ $ mvn clean install
 ### Run it
 
 ```
-$ mvn exec:java -Dexec.mainClass="com.google.search.robotstxt.App" -Dexec.args="arg0 arg1"
+$ mvn exec:java -Dexec.mainClass="com.google.search.robotstxt.spec.Main" -Dexec.args="--command='<run_parser_command>' [--userTestDir=<user_tests_directory>] [--outputType=<output_type>] [--allowedPattern=<regular_expr>] [--disallowedPattern=<regular_expr>]"
 ```
+Usage: 
+```
+                  --command=<callParserCommand>
+                  [--allowedPattern=<allowedPattern>]
+                  [--disallowedPattern=<disallowedPattern>]
+                  [--outputType=<outputType>] [--userTestDir=<myTestsDir>]
+      
+      --command=<callParserCommand>
+         The command that runs the parser
+      --outputType=<outputType>
+         The format that the parser uses (either EXITCODE or PRINTING). Default value: EXITCODE
+      --allowedPattern=<allowedPattern>
+         The pattern used for -allowed-. Default value: 0
+      --disallowedPattern=<disallowedPattern>
+         The pattern used for -disallowed-. Default value: 1
+      --userTestDir=<myTestsDir>
+         The path to the directory that contains the user's test files. Default value: null
+```
+
 
 ## Source Code Headers
 
