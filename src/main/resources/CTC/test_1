@@ -1,0 +1,23 @@
+
+tests:
+[
+    {
+        robotstxt: "User-Agent: *\nDisallow: /\nUser-Agent: Foo Bar\nAllow: /x/\nDisallow: /\n"
+        test_expectations: 
+        [ 
+            { 
+                testurl: "http://foo.bar/x/y"
+                useragent: "Foo"
+                expected_outcome: ALLOWED
+                additional_explanation: "Because I say so!"
+            },
+            { 
+                testurl: "http://foo.bar/x/y"
+                useragent: "Foo Bar"
+                expected_outcome: DISALLOWED
+                additional_explanation: "Because I say so!"
+            }
+        ]
+    }
+]
+
