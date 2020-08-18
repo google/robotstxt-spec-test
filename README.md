@@ -30,7 +30,9 @@ You can also install it like this if your Linux supports it:
 $ sudo apt-get install protobuf-compiler
 ```
 
+
 ### Build it
+
 
 Standard maven commands work here.
 
@@ -49,7 +51,8 @@ $ mvn clean install
 ```
 $ mvn exec:java -Dexec.mainClass="com.google.search.robotstxt.spec.Main" -Dexec.args="--command='<run_parser_command>' [--userTestDir=<user_tests_directory>] [--outputType=<output_type>] [--allowedPattern=<regular_expr>] [--disallowedPattern=<regular_expr>]"
 ```
-## Usage: 
+### Usage
+
 The command line arguments that are used by the testing framework must be specified for the flag `-Dexec.args="<args>"`, according to these usage specifications:
 ```
     --command=<callParserCommand>
