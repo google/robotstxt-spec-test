@@ -30,6 +30,7 @@ You can also install it like this if your Linux supports it:
 $ sudo apt-get install protobuf-compiler
 ```
 
+
 ### Build it
 
 Standard maven commands work here.
@@ -47,8 +48,38 @@ $ mvn clean install
 ### Run it
 
 ```
-$ mvn exec:java -Dexec.mainClass="com.google.search.robotstxt.App" -Dexec.args="arg0 arg1"
+$ mvn exec:java -Dexec.mainClass="com.google.search.robotstxt.spec.Main" \
+  -Dexec.args="--command='<run_parser_command>' [--userTestDir=<user_tests_directory>] [--outputType=<output_type>] [--allowedPattern=<regular_expr>] [--disallowedPattern=<regular_expr>]"
 ```
+
+### Usage
+
+The command line arguments that are used by the testing framework must be specified for the flag `-Dexec.args="<args>"`, according to these usage specifications:
+```
+    --command=<callParserCommand>
+    [--allowedPattern=<allowedPattern>]
+    [--disallowedPattern=<disallowedPattern>]
+    [--outputType=<outputType>] [--userTestDir=<myTestsDir>]
+      
+      --command=<callParserCommand>
+         The command that runs the parser
+      --outputType=<outputType>
+         The format that the parser uses (either EXITCODE or PRINTING). Default value: EXITCODE
+      --allowedPattern=<allowedPattern>
+         The pattern used for -allowed-. Default value: 0
+      --disallowedPattern=<disallowedPattern>
+         The pattern used for -disallowed-. Default value: 1
+      --userTestDir=<myTestsDir>
+         The path to the directory that contains the user's test files. Default value: null
+```
+The parser must receive as arguments: the robots.txt file, the URL, the user-agent. The actual place inside the command that calls the parser will be specified by using the variables `%robots%`, `%url%`, `%user-agent%`. 
+
+The format for the `--command` flag should be: `<path/to/your/parser> [...] %robots% [...] %url% [...] %user-agent%`.
+
+An example of such command could be: `./my_parser --url %url% --user-agent %user-agent% --robotsPath=%robots%`.
+
+Also, the parser must exit with an exit code or must print at Standard Output a specific message for the outcome of the test.
+
 
 ## Source Code Headers
 
