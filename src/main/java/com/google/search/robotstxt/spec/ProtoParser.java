@@ -20,7 +20,9 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 
 /** Class for parsing Protocol Buffer test cases */
 public class ProtoParser {
@@ -58,9 +60,15 @@ public class ProtoParser {
       dir = new File(dirPath);
     }
 
-    File[] allFiles = dir.listFiles();
+    Iterator<File> allFiles = FileUtils.iterateFiles(dir, null, true);
     List<TestInfo> testCases = new ArrayList<>();
-    for (File testFile : allFiles) {
+    while (allFiles.hasNext()) {
+      File testFile = allFiles.next();
+
+      // Ignore the files that don't have the .textproto extension
+      if (!testFile.getName().contains(".textproto")) {
+        continue;
+      }
       String text = new String(Files.readAllBytes(testFile.toPath()), StandardCharsets.UTF_8);
 
       // Parse the proto content
