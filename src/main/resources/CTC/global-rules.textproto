@@ -1,0 +1,45 @@
+tests:
+[
+  {
+    robotstxt: ""
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "If no group matches the user-agent, crawlers must obey the first group with a user-agent line with a \"*\" value, if present. If no group satisfies either condition, or no groups are present at all, no rules apply."
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: *\ndisallow: /x\nuser-agent: FooBot\nallow: /x/y\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: ""
+      },
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "BarBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "If no group matches the user-agent, crawlers must obey the first group with a user-agent line with a \"*\" value, if present."
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\nallow: /\nuser-agent: BarBot\ndisallow: /\nuser-agent: BazBot\ndisallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "QuxBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "If no group matches the user-agent, crawlers must obey the first group with a user-agent line with a \"*\" value, if present. If no group satisfies either condition, or no groups are present at all, no rules apply."
+      }
+    ]
+  }
+]
