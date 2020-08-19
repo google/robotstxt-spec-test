@@ -99,7 +99,7 @@ tests:
         useragent: "Foo"
         expected_outcome: DISALLOWED
         additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
-      },
+      } ,
       {
         testurl: "http://foo.bar/a/b"
         useragent: "foo"

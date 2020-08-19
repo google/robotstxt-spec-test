@@ -8,13 +8,13 @@ tests:
         testurl: "http://foo.bar/x/y"
         useragent: "FooBot"
         expected_outcome: ALLOWED
-        additional_explanation: "REP lines are case insensitive. See REP I-D section \"Protocol Definition\"."
+        additional_explanation: "REP lines are case insensitive."
       },
       {
         testurl: "http://foo.bar/a/b"
         useragent: "FooBot"
         expected_outcome: DISALLOWED
-        additional_explanation: "REP lines are case insensitive. See REP I-D section \"Protocol Definition\"."
+        additional_explanation: "REP lines are case insensitive."
       }
     ]
   },
@@ -26,13 +26,13 @@ tests:
         testurl: "http://foo.bar/x/y"
         useragent: "FooBot"
         expected_outcome: ALLOWED
-        additional_explanation: "REP lines are case insensitive. See REP I-D section \"Protocol Definition\"."
+        additional_explanation: "REP lines are case insensitive."
       },
       {
         testurl: "http://foo.bar/a/b"
         useragent: "FooBot"
         expected_outcome: DISALLOWED
-        additional_explanation: "REP lines are case insensitive. See REP I-D section \"Protocol Definition\"."
+        additional_explanation: "REP lines are case insensitive."
       }
     ]
   },
@@ -44,7 +44,7 @@ tests:
         testurl: "http://foo.bar/x/y"
         useragent: "FooBot"
         expected_outcome: ALLOWED
-        additional_explanation: "REP lines are case insensitive. See REP I-D section \"Protocol Definition\"."
+        additional_explanation: "REP lines are case insensitive."
       },
       {
         testurl: "http://foo.bar/a/b"

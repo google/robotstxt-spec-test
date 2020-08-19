@@ -27,7 +27,7 @@ tests:
         useragent: ""
         expected_outcome: ALLOWED
         additional_explanation: "Empty user-agent to be matched: everything allowed."
-      },
+      } ,
       {
         testurl: ""
         useragent: "FooBot"
