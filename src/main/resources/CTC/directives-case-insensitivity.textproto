@@ -3,7 +3,9 @@
 tests:
 [
   {
-    robotstxt: "USER-AGENT: FooBot\nALLOW: /x/\nDISALLOW: /\n"
+    robotstxt: "USER-AGENT: FooBot\n"
+        "ALLOW: /x/\n"
+        "DISALLOW: /\n"
     test_expectations:
     [
       {
@@ -25,7 +27,9 @@ tests:
     ]
   },
   {
-    robotstxt: "user-agent: FooBot\nallow: /x/\ndisallow: /\n"
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /x/\n"
+        "disallow: /\n"
     test_expectations:
     [
       {
@@ -47,7 +51,9 @@ tests:
     ]
   },
   {
-    robotstxt: "uSeR-aGeNt: FooBot\nAlLoW: /x/\ndIsAlLoW: /\n"
+    robotstxt: "uSeR-aGeNt: FooBot\n"
+        "AlLoW: /x/\n"
+        "dIsAlLoW: /\n"
     test_expectations:
     [
       {

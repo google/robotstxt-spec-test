@@ -19,7 +19,10 @@ tests:
     ]
   },
   {
-    robotstxt: "user-agent: *\ndisallow: /x\nuser-agent: FooBot\nallow: /x/y\n"
+    robotstxt: "user-agent: *\n"
+        "disallow: /x\n"
+        "user-agent: FooBot\n"
+        "allow: /x/y\n"
     test_expectations:
     [
       {
@@ -40,7 +43,12 @@ tests:
     ]
   } ,
   {
-    robotstxt: "user-agent: FooBot\nallow: /\nuser-agent: BarBot\ndisallow: /\nuser-agent: BazBot\ndisallow: /\n"
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /\n"
+        "user-agent: BarBot\n"
+        "disallow: /\n"
+        "user-agent: BazBot\n"
+        "disallow: /\n"
     test_expectations:
     [
       {

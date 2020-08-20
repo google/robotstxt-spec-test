@@ -22,7 +22,8 @@ tests:
     ]
   },
   {
-    robotstxt: "user-agent: FooBot\ndisallow: /\n"
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /\n"
     test_expectations:
     [
       {

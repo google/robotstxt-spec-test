@@ -3,7 +3,8 @@
 tests:
 [
   {
-    robotstxt: "user-agent: FooBot\ndisallow: /X/\n"
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /X/\n"
     test_expectations:
     [
       {
@@ -17,7 +18,8 @@ tests:
     ]
   },
   {
-    robotstxt: "user-agent: FooBot\ndisallow: /x/\n"
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /x/\n"
     test_expectations:
     [
       {
