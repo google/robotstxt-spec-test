@@ -11,12 +11,14 @@ tests:
         useragent: "Foo"
         expected_outcome: ALLOWED
         additional_explanation: "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       },
       {
         testurl: "http://foo.bar/x/y"
         useragent: "Foo Bar"
         expected_outcome: DISALLOWED
         additional_explanation: "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       }
     ]
   },
@@ -28,25 +30,41 @@ tests:
         testurl: "http://foo.bar/x/y"
         useragent: "Foo"
         expected_outcome: ALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       },
       {
         testurl: "http://foo.bar/x/y"
         useragent: "foo"
         expected_outcome: ALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       },
       {
         testurl: "http://foo.bar/a/b"
         useragent: "Foo"
         expected_outcome: DISALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       },
       {
         testurl: "http://foo.bar/a/b"
         useragent: "foo"
         expected_outcome: DISALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       }
     ]
   },
@@ -58,25 +76,41 @@ tests:
         testurl: "http://foo.bar/x/y"
         useragent: "Foo"
         expected_outcome: ALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       },
       {
         testurl: "http://foo.bar/x/y"
         useragent: "foo"
         expected_outcome: ALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       },
       {
         testurl: "http://foo.bar/a/b"
         useragent: "Foo"
         expected_outcome: DISALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       },
       {
         testurl: "http://foo.bar/a/b"
         useragent: "foo"
         expected_outcome: DISALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       }
     ]
   },
@@ -88,25 +122,41 @@ tests:
         testurl: "http://foo.bar/x/y"
         useragent: "Foo"
         expected_outcome: ALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       },
       {
         testurl: "http://foo.bar/x/y"
         useragent: "foo"
         expected_outcome: ALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       },
       {
         testurl: "http://foo.bar/a/b"
         useragent: "Foo"
         expected_outcome: DISALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       } ,
       {
         testurl: "http://foo.bar/a/b"
         useragent: "foo"
         expected_outcome: DISALLOWED
-        additional_explanation: "User-agent line values are case insensitive.\nGoogle specific: accept user-agent value up to the first space."
+        additional_explanation: "User-agent line values are case insensitive. "
+            "See REP I-D section \"The user-agent line\":\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1\n"
+            "Google specific: accept user-agent value up to the first space."
+            "\nhttps://github.com/google/robotstxt/blob/master/robots.cc#L552"
       }
     ]
   }

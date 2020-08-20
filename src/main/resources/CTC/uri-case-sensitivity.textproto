@@ -11,6 +11,8 @@ tests:
         useragent: "FooBot"
         expected_outcome: ALLOWED
         additional_explanation: "Matching rules against URIs is case sensitive."
+            "See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
       }
     ]
   },
