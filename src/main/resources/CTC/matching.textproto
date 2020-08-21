@@ -1,0 +1,225 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /x/page.html\n"
+        "allow: /x/\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/page.html"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /x/page.html\n"
+        "disallow: /x/\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/page.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      },
+      {
+        testurl: "http://foo.bar/x/"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: \n"
+        "allow: \n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/page.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used.\n"
+            "In case of equivalent disallow and allow patterns for the same user-agent, "
+            "allow is used.See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /\n"
+        "allow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/page.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used.\n"
+            "In case of equivalent disallow and allow patterns for the same user-agent, "
+            "allow is used.See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /x\n"
+        "allow: /x/\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      },
+      {
+        testurl: "http://foo.bar/x/"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /x/page.html\n"
+        "allow: /x/page.html\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/page.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used.\n"
+            "In case of equivalent disallow and allow patterns for the same user-agent, "
+            "allow is used.See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /page\n"
+        "disallow: /*.html\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/page.html"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      },
+      {
+        testurl: "http://foo.bar/page"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /x/page.\n"
+        "disallow: /*.html\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/page.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      },
+      {
+        testurl: "http://foo.bar/x/y.html"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      }
+    ]
+  },
+  {
+    robotstxt: "User-agent: *\n"
+        "Disallow: /x/\n"
+        "User-agent: FooBot\n"
+        "Disallow: /y/\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/page"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      },
+      {
+        testurl: "http://foo.bar/y/page"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "The most specific match found MUST be used. "
+            "The most specific match is the match that has the most octets. "
+            "In case of multiple rules with the same length, the least strict "
+            "rule must be used. Most specific group for FooBot allows implicitly /x/page. \n"
+            "See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      }
+    ]
+  }
+]
