@@ -1,0 +1,42 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-Agent: *\n"
+        "Allow: /allowed-slash/index.html\n"
+        "Disallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.com/allowed-slash/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Google-specific: \"index.html\" (and only that) at the end "
+            "of a pattern is equivalent to \"/\".\n"
+            "If index.html is allowed, we interpret this as / being allowed too."
+      },
+      {
+        testurl: "http://foo.com/allowed-slash/index.htm"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Google-specific: \"index.html\" (and only that) at the end "
+            "of a pattern is equivalent to \"/\".\n"
+            "In this case, index.htm doesn't exactly match"
+      },
+      {
+        testurl: "http://foo.com/allowed-slash/index.html"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Google-specific: \"index.html\" (and only that) at the end "
+            "of a pattern is equivalent to \"/\".\n"
+      },
+      {
+        testurl: "http://foo.com/anyother-url"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+        additional_explanation: ""
+      }
+    ]
+  }
+]
