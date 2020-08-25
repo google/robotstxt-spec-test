@@ -1,0 +1,45 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: quxbot\n"
+        "Disallow: /\n"
+        "User-agent: *\n"
+        "Disallow:\n"
+        "Sitemap: https://example.com/sitemap.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/log?id=132"
+        useragent: "foo_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "quxbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/baz/baz"
+        useragent: "quxbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/index.htm"
+        useragent: "quxbot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

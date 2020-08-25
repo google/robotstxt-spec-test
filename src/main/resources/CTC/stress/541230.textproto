@@ -1,0 +1,122 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: *\n"
+        "Allow: /*.js\n"
+        "Allow: /*.css\n"
+        "Allow: /*.jpg\n"
+        "Allow: /*.png\n"
+        "Allow: /*.gif\n"
+        "Allow: /*?page\n"
+        "Allow: /*?ref=\n"
+        "Disallow: /*?\n"
+        "Disallow: /stat/\n"
+        "Disallow: /id/1\n"
+        "Disallow: /id/3\n"
+        "Disallow: /register\n"
+        "Disallow: /id/5\n"
+        "Disallow: /id/7\n"
+        "Disallow: /id/8\n"
+        "Disallow: /id/9\n"
+        "Disallow: /id/sub/\n"
+        "Disallow: /panel/\n"
+        "Disallow: /master/\n"
+        "Disallow: /informer/\n"
+        "Disallow: /secure/\n"
+        "Disallow: /poll/\n"
+        "Disallow: /search/\n"
+        "Disallow: /abnl/\n"
+        "Disallow: /*_escaped_pattern_=\n"
+        "Disallow: /*-*-*-*-321$\n"
+        "Disallow: /baz/order/\n"
+        "Disallow: /baz/printorder/\n"
+        "Disallow: /baz/checkout/\n"
+        "Disallow: /baz/user/\n"
+        "Disallow: /baz/search\n"
+        "Disallow: /*0-*-0-03$\n"
+        "Disallow: /*-0-0-\n"
+        "\n"
+        "Sitemap: http://example.com/sitemap.xml\n"
+        "Sitemap: http://example.com/sitemap-forum.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/foo.js"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar.css"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/x/y/z?ref=bar"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/x/y/z"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/status/x"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/stat/perf"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/id/13579"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/id/24680"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/search/stats"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo_bar_escaped_pattern_=123"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo-bar-vaz-qux-321"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo-bar-vaz-qux-3216"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/-0-0-312"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/baz"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/baz/user/123"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]
