@@ -1,0 +1,67 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /p\n"
+        "disallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/page"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Section \"Order of precedence for group-member records\"."
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /folder\n"
+        "disallow: /folder\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/folder/page"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Section \"Order of precedence for group-member records\"."
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /page\n"
+        "disallow: /*.htm\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/page.htm"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Section \"Order of precedence for group-member records\"."
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /$\n"
+        "disallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Section \"Order of precedence for group-member records\"."
+      },
+      {
+        testurl: "http://example.com/page.html"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Section \"Order of precedence for group-member records\"."
+      }
+    ]
+  }
+]

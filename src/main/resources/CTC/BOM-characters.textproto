@@ -1,0 +1,93 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "\xEF\xBB\xBF"
+        "User-Agent: foo\n"
+        "Disallow: /AnyValue\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/AnyValue"
+        useragent: "foo"
+        expected_outcome: DISALLOWED
+        additional_explanation: "BOM characters are unparseable and thus skipped. "
+            "The rules following the line are used."
+            "Check the file {PROJECT}/src/main/resources/CTC/BOM-characters.textproto "
+            "to see the characters used for the robots.txt file."
+      }
+    ]
+  },
+  {
+    robotstxt: "\xEF\xBB"
+        "User-Agent: foo\n"
+        "Disallow: /AnyValue\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/AnyValue"
+        useragent: "foo"
+        expected_outcome: ALLOWED
+        additional_explanation: "BOM characters are unparseable and thus skipped. "
+            "The rules following the line are used."
+            "Check the file {PROJECT}/src/main/resources/CTC/BOM-characters.textproto "
+            "to see the characters used for the robots.txt file."
+      }
+    ]
+  },
+  {
+    robotstxt: "\xEF"
+        "User-Agent: foo\n"
+        "Disallow: /AnyValue\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/AnyValue"
+        useragent: "foo"
+        expected_outcome: ALLOWED
+        additional_explanation: "BOM characters are unparseable and thus skipped. "
+            "The rules following the line are used."
+            "Check the file {PROJECT}/src/main/resources/CTC/BOM-characters.textproto "
+            "to see the characters used for the robots.txt file."
+      }
+    ]
+  },
+  {
+    robotstxt: "\xEF\x11\xBF"
+        "User-Agent: foo\n"
+        "Disallow: /AnyValue\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/AnyValue"
+        useragent: "foo"
+        expected_outcome: ALLOWED
+        additional_explanation: "BOM characters are unparseable and thus skipped. "
+            "The rules following the line are used.\n"
+            "If the BOM is not the right sequence, the first line looks like garbage"
+            "that is skipped (we essentially see \"\x11\xBFUser-Agent\").\n"
+            "Check the file {PROJECT}/src/main/resources/CTC/BOM-characters.textproto "
+            "to see the characters used for the robots.txt file."
+      }
+    ]
+  },
+  {
+    robotstxt: "User-Agent: foo\n"
+        "\xEF\xBB\xBF"
+        "Disallow: /AnyValue\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/AnyValue"
+        useragent: "foo"
+        expected_outcome: ALLOWED
+        additional_explanation: "BOM characters are unparseable and thus skipped. "
+            "The rules following the line are used.\n"
+            "BOMs only valid in the beginning of the file.\n"
+            "Check the file {PROJECT}/src/main/resources/CTC/BOM-characters.textproto "
+            "to see the characters used for the robots.txt file."
+      }
+    ]
+  }
+]

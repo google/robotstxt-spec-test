@@ -1,0 +1,100 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-Agent: foo\n"
+        "Allow: /some/path\n"
+        "User-Agent: bar\n"
+        "\n"
+        "\n"
+        "Disallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/page"
+        useragent: "bar"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Different line endings are supported: %x0D, %x0A, %x0D.0A\n"
+            "Check the file {PROJECT}/src/main/resources/CTC/different-line-endings.textproto "
+            "to see the characters used as line endings for the robots.txt file."
+      }
+    ]
+  },
+  {
+    robotstxt: "User-Agent: foo\r\n"
+        "Allow: /some/path\r\n"
+        "User-Agent: bar\r\n"
+        "\r\n"
+        "\r\n"
+        "Disallow: /\r\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/page"
+        useragent: "bar"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Different line endings are supported: %x0D, %x0A, %x0D.0A\n"
+            "Check the file {PROJECT}/src/main/resources/CTC/different-line-endings.textproto "
+            "to see the characters used as line endings for the robots.txt file."
+      }
+    ]
+  },
+  {
+    robotstxt: "User-Agent: foo\r"
+        "Allow: /some/path\r"
+        "User-Agent: bar\r"
+        "\r"
+        "\r"
+        "Disallow: /\r"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/page"
+        useragent: "bar"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Different line endings are supported: %x0D, %x0A, %x0D.0A\n"
+            "Check the file {PROJECT}/src/main/resources/CTC/different-line-endings.textproto "
+            "to see the characters used as line endings for the robots.txt file."
+      }
+    ]
+  },
+  {
+    robotstxt: "User-Agent: foo\n"
+        "Allow: /some/path\n"
+        "User-Agent: bar\n"
+        "\n"
+        "\n"
+        "Disallow: /"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/page"
+        useragent: "bar"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Different line endings are supported: %x0D, %x0A, %x0D.0A\n"
+            "Check the file {PROJECT}/src/main/resources/CTC/different-line-endings.textproto "
+            "to see the characters used as line endings for the robots.txt file."
+      }
+    ]
+  },
+  {
+    robotstxt: "User-Agent: foo\n"
+        "Allow: /some/path\r\n"
+        "User-Agent: bar\n"
+        "\r\n"
+        "\n"
+        "Disallow: /"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/page"
+        useragent: "bar"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Different line endings are supported: %x0D, %x0A, %x0D.0A\n"
+            "Check the file {PROJECT}/src/main/resources/CTC/different-line-endings.textproto "
+            "to see the characters used as line endings for the robots.txt file."
+      }
+    ]
+  }
+]
