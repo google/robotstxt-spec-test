@@ -1,0 +1,73 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: *\n"
+        "<br />\n"
+        "Allow: /\n"
+        "<br />\n"
+        "User-agent: BarBot\n"
+        "<br />\n"
+        "Disallow: /\n"
+        "<br />\n"
+        "User-agent: AB42bot\n"
+        "<br />\n"
+        "Disallow: /\n"
+        "<br />\n"
+        "sitemap: http://example.com/sitemap.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/robots.txt"
+        useragent: "foo_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "BarBot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar/baz"
+        useragent: "BarBot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/robots.txt"
+        useragent: "BarBot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "AB42bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "AB42bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "AB"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/robots.txt"
+        useragent: "AB"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]
