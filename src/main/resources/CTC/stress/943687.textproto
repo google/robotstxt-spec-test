@@ -11,10 +11,10 @@ tests:
         "# http://www.robotstxt.org/orig.html\n"
         "#\n"
         "# For syntax checking, see:\n"
-        "# http://tool.motoricerca.info/robots-checker.phtml\n"
+        "# http://example.com/robots-checker.phtml\n"
         "\n"
         "User-agent: *\n"
-        "Disallow: /master/\n"
+        "Disallow: /admin/\n"
         "Disallow: /bin/\n"
         "Disallow: /cache/\n"
         "Disallow: /clion/\n"
@@ -35,7 +35,7 @@ tests:
         expected_outcome: ALLOWED
       },
       {
-        testurl: "http://www.example.com/master/settings"
+        testurl: "http://www.example.com/admin/settings"
         useragent: "foobot"
         expected_outcome: DISALLOWED
       },
@@ -60,17 +60,17 @@ tests:
         expected_outcome: DISALLOWED
       },
       {
-        testurl: "http://www.example.com/example/master"
+        testurl: "http://www.example.com/example/admin"
         useragent: "foo-bot"
         expected_outcome: ALLOWED
       },
       {
-        testurl: "http://www.example.com/master"
+        testurl: "http://www.example.com/admin"
         useragent: "foobot"
         expected_outcome: ALLOWED
       },
       {
-        testurl: "http://www.example.com/master/"
+        testurl: "http://www.example.com/admin/"
         useragent: "foobot"
         expected_outcome: DISALLOWED
       },

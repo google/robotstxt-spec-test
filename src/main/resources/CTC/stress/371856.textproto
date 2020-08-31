@@ -1,0 +1,59 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: Foobot\n"
+        "User-agent: Barbot\n"
+        "User-agent: Bazbot\n"
+        "User-agent: Quxbot\n"
+        "Crawl-delay: 10\n"
+        "Disallow:\n"
+        "\n"
+        "User-agent: *\n"
+        "Disallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "Foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "Barbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/baz"
+        useragent: "Bazbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "Bazbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/index.html"
+        useragent: "Bazbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "zazbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/index.html"
+        useragent: "zazbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/zaz"
+        useragent: "zazbot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

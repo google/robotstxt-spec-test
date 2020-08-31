@@ -22,7 +22,7 @@ tests:
         "Disallow: /id/9\n"
         "Disallow: /id/sub/\n"
         "Disallow: /panel/\n"
-        "Disallow: /master/\n"
+        "Disallow: /admin/\n"
         "Disallow: /informer/\n"
         "Disallow: /secure/\n"
         "Disallow: /poll/\n"
