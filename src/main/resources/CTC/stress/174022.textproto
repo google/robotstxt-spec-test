@@ -1,0 +1,82 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: *\n"
+        "Disallow: /view-responses.html\n"
+        "Disallow: /help.html\n"
+        "Disallow: /chat/reviews/view/\n"
+        "Disallow: /chat/view/\n"
+        "Disallow: /chat/view/hg/\n"
+        "Disallow: /chat/view/asd/\n"
+        "Disallow: /chat/asd/\n"
+        "Disallow: /chat/trackback/\n"
+        "Disallow: /chat/wp/\n"
+        "Disallow: /chat/*/reviews/view/$\n"
+        "Disallow: /chat/*/view/$\n"
+        "Disallow: /chat/*/view/hg/$\n"
+        "Disallow: /chat/*/view/asd/$\n"
+        "Disallow: /chat/*/asd/$\n"
+        "Disallow: /chat/*/trackback/$\n"
+        "Disallow: /contact-someone.html\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/search?req=123"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/view-responses.html"
+        useragent: "Foo_Bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/chat/"
+        useragent: "barbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/chat/reviews/view/112"
+        useragent: "BarBot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/chat/view"
+        useragent: "BazBot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/chat/view/hg"
+        useragent: "BazBot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/chat/foo/bar/baz/view/"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/chat/something/asd/"
+        useragent: "barbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/chat/asd/"
+        useragent: "BarBot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/contact-someone.html?user=foo"
+        useragent: "QuxBot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

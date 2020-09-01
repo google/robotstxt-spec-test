@@ -1,0 +1,45 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: *\n"
+        "Disallow: /ab-baz/\n"
+        "Allow: /ab-baz/baz-ajax.php\n"
+        "\n"
+        "Sitemap: https://example.com/ab-sitemap.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar.php"
+        useragent: "Foo_Bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/ab-baz/index.htm"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/ab-baz/foo/bar"
+        useragent: "foo-bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/ab-baz/baz-ajax.php"
+        useragent: "foo_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/ab-baz/baz-ajax.php?user=123"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      }
+    ]
+  }
+]

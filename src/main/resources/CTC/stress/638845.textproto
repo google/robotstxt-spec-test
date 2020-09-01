@@ -1,0 +1,61 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "# For more information about the robots.txt standard, see:\n"
+        "# http://www.robotstxt.org/orig.html\n"
+        "#\n"
+        "\n"
+        "User-agent: *\n"
+        "Disallow: /main/\n"
+        "Disallow: /store/\n"
+        "Disallow: /scp/\n"
+        "Disallow: /mods/\n"
+        "Disallow: /view/\n"
+        "Disallow: /deps/\n"
+        "Disallow: /setup/\n"
+        "Disallow: /language/\n"
+        "Disallow: /libs/\n"
+        "Disallow: /data/\n"
+        "Disallow: /media/\n"
+        "Disallow: /parts/\n"
+        "Disallow: /plugins/\n"
+        "Disallow: /help/\n"
+        "Disallow: /tmp/\n"
+        "\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/index.html"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/scp/data"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/medi"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/media"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/loogs?user=admin"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      }
+    ]
+  }
+]

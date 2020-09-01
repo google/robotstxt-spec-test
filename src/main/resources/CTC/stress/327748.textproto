@@ -1,0 +1,46 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: asdfbot\n"
+        "Disallow: /\n"
+        "User-agent: *\n"
+        "Disallow:\n"
+        "Crawl-delay: 15\n"
+        "Sitemap: http://example.com/sitemap.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://m.example.com/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://m.example.com/foo/bar/baz.php"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://m.example.com/index.html"
+        useragent: "Foo_Bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://m.example.com/"
+        useragent: "asdfbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://m.example.com/foo/bar/baz.js"
+        useragent: "asdfbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://m.example.com/robots.txt"
+        useragent: "asdfbot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

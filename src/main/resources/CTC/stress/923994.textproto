@@ -1,0 +1,111 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: *\n"
+        "Disallow: /resources/bazbaz/baz/more_stuff\n"
+        "Disallow: /wha/some_dir/files\n"
+        "Disallow: /lib\n"
+        "Disallow: /sys\n"
+        "Disallow: /foo\n"
+        "Disallow: /bar\n"
+        "Disallow: /baz\n"
+        "Sitemap: http://www.example.com/wha/some_dir/resources/sitemap.xml\n"
+        "\n"
+        "User-agent: quxbot\n"
+        "Disallow: /resources/bazbaz/baz/more_stuff\n"
+        "Disallow: /wha/some_dir/files\n"
+        "Disallow: /lib\n"
+        "Disallow: /sys\n"
+        "Disallow: /foo\n"
+        "Disallow: /bar\n"
+        "Disallow: /baz\n"
+        "Disallow: /users/big_foo/some_stuff\n"
+        "Disallow: /users/big_foo/other_stuff\n"
+        "Disallow: /en/stuff/arr\n"
+        "Disallow: /en/stuff/dep\n"
+        "Disallow: /sk/stuff/pri\n"
+        "Disallow: /sk/stuff/odl\n"
+        "Disallow: /cz/stuff/pri\n"
+        "Disallow: /cz/stuff/odl\n"
+        "Disallow: /hu/stuff/rke\n"
+        "Disallow: /hu/stuff/ind\n"
+        "Disallow: /addfightyos\n"
+        "Disallow: /addfightnope\n"
+        "Crawl-delay: 29\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/home"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo?id=12"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/qux"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/home/scripts/s.js"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/baz/112"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/resources/index.html"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/resources/bazbaz/baz/more_stuff"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/resources/bazbaz/baz/more_stuff"
+        useragent: "quxbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/users/big_foo/some_stuff/new"
+        useragent: "quxbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/addfightyos"
+        useragent: "quxbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/addfight/new"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/addfight/new"
+        useragent: "quxbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/addfightnope?dest=ULLI"
+        useragent: "quxbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/cz"
+        useragent: "quxbot"
+        expected_outcome: ALLOWED
+      }
+    ]
+  }
+]

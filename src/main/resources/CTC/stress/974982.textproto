@@ -1,0 +1,113 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "# Some Robots Txt\n"
+        "\n"
+        "\n"
+        "User-agent: *\n"
+        "Disallow: /data\n"
+        "Disallow: /find\n"
+        "Disallow: /stuff$\n"
+        "Disallow: /stuff/\n"
+        "Disallow: /contacts/\n"
+        "Disallow: /dynamic/\n"
+        "Disallow:/*?creator=*\n"
+        "Disallow:/*&creator=*\n"
+        "Disallow:/*?finder=*\n"
+        "Disallow:/*&finder=*\n"
+        "Disallow:/*?locator=*\n"
+        "Disallow:/*&locator=*\n"
+        "Disallow:/*?viewer=*\n"
+        "Disallow:/*&viewer=*\n"
+        "Disallow:/*?format=json\n"
+        "Disallow:/*&format=json\n"
+        "Disallow:/*?format=page-context\n"
+        "Disallow:/*&format=page-context\n"
+        "Disallow:/*?format=main-content\n"
+        "Disallow:/*&format=main-content\n"
+        "Disallow:/*?format=json-pretty\n"
+        "Disallow:/*&format=json-pretty\n"
+        "Disallow:/*?format=ical\n"
+        "Disallow:/*&format=ical\n"
+        "Disallow:/*?someStuff=*\n"
+        "Disallow:/*&someStuff=*\n"
+        "\n"
+        "\n"
+        "Sitemap: https://example.com/sitemap.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://www.example.com/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/robots.txt"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/find"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/find/"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/find?id=123"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/stuff"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/stuffstats"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/stuff/new"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/foo?creator=bar"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/foo?finder=baz"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/foo?creator=bar&finder=baz"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/foo?viewer=qux"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/foo?creator=bar&stuff=baz"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/contacts/index.html"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]
