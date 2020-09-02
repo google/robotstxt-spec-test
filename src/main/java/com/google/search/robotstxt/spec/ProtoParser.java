@@ -36,7 +36,8 @@ public class ProtoParser {
   private void addTestInfoObjects(
       SpecificationProtos.RobotsTxtSpecification robotsTxtSpec, List<TestInfo> testCases) {
     for (SpecificationProtos.RobotsTxtTest robotsTxtTest : robotsTxtSpec.getTestsList()) {
-      String robotsTxtContent = robotsTxtTest.getRobotstxt();
+      byte[] robotsTxtContent = new byte[robotsTxtTest.getRobotstxt().size()];
+      robotsTxtTest.getRobotstxt().copyTo(robotsTxtContent, 0);
 
       for (SpecificationProtos.Expectation expectation : robotsTxtTest.getTestExpectationsList()) {
         TestInfo testInfo = new TestInfo(robotsTxtContent, expectation);

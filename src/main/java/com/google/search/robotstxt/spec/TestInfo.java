@@ -15,10 +15,11 @@
 package com.google.search.robotstxt.spec;
 
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
+import java.nio.charset.StandardCharsets;
 
 /** Information about a specific test case */
 public class TestInfo {
-  private String robotsTxtContent;
+  private byte[] robotsTxtContent;
   private SpecificationProtos.Expectation expectation;
 
   /** Default constructor */
@@ -31,12 +32,12 @@ public class TestInfo {
    * @param expectation The structure from specification.proto (url, user-agent, expected outcome,
    *     explanation)
    */
-  public TestInfo(String robotsTxtContent, SpecificationProtos.Expectation expectation) {
+  public TestInfo(byte[] robotsTxtContent, SpecificationProtos.Expectation expectation) {
     this.robotsTxtContent = robotsTxtContent;
     this.expectation = expectation;
   }
 
-  public String getRobotsTxtContent() {
+  public byte[] getRobotsTxtContent() {
     return robotsTxtContent;
   }
 
@@ -58,7 +59,7 @@ public class TestInfo {
 
   public String toString() {
     return "The robots.txt content: \n"
-        + this.robotsTxtContent
+        + new String(this.robotsTxtContent, StandardCharsets.UTF_8)
         + "\n\n"
         + "The URL: "
         + this.expectation.getTesturl()

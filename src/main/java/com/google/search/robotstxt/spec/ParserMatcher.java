@@ -18,5 +18,5 @@ import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 
 public interface ParserMatcher {
   public SpecificationProtos.Outcome getOutcome(
-      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws Exception;
+      byte[] robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws Exception;
 }
