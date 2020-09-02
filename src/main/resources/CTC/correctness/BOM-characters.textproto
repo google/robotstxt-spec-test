@@ -28,7 +28,7 @@ tests:
       {
         testurl: "http://example.com/AnyValue"
         useragent: "foo"
-        expected_outcome: ALLOWED
+        expected_outcome: DISALLOWED
         additional_explanation: "BOM characters are unparseable and thus skipped. "
             "The rules following the line are used."
             "Check the file {PROJECT}/src/main/resources/CTC/BOM-characters.textproto "
@@ -45,7 +45,7 @@ tests:
       {
         testurl: "http://example.com/AnyValue"
         useragent: "foo"
-        expected_outcome: ALLOWED
+        expected_outcome: DISALLOWED
         additional_explanation: "BOM characters are unparseable and thus skipped. "
             "The rules following the line are used."
             "Check the file {PROJECT}/src/main/resources/CTC/BOM-characters.textproto "
