@@ -17,6 +17,9 @@ package com.google.search.robotstxt.spec;
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 
 public interface ParserMatcher {
+  // Method to get the outcome of a parser for a specific (robots.txt - URL - user-agent) case
+  // Used byte[] instead of String or the robots.txt content because sometimes, in these files
+  // can appear BOM characters (or broken BOM characters) that are altered in a regular Java String
   public SpecificationProtos.Outcome getOutcome(
       byte[] robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws Exception;
 }
