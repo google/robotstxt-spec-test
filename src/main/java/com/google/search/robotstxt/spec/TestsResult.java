@@ -14,7 +14,7 @@
 
 package com.google.search.robotstxt.spec;
 
-import com.google.search.robotstxt.spec.specification.SpecificationProtos;
+import com.google.search.robotstxt.spec.ParserMatcher.TestOutcome;
 
 /** Holds the results of the tests performed */
 public class TestsResult {
@@ -29,11 +29,13 @@ public class TestsResult {
   /** Reports the success of one Complience Test */
   public void reportSuccessComplianceTests() {
     this.totalNumberComplianceTests++;
+    System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " PASSED");
   }
 
   /** Reports the success of one user test */
   public void reportSuccessUserTests() {
     this.totalNumberUserTests++;
+    System.out.println("USER TEST #" + totalNumberUserTests + "PASSED");
   }
 
   /**
@@ -42,14 +44,19 @@ public class TestsResult {
    * @param failedTest The info about the failed test
    * @param userOutcome The outcome of the parser
    */
-  public void reportFailureComplianceTests(
-      TestInfo failedTest, SpecificationProtos.Outcome userOutcome) {
+  public void reportFailureComplianceTests(TestInfo failedTest, TestOutcome testOutcome) {
     this.totalNumberComplianceTests++;
     this.numberFailedComplianceTests++;
-    System.out.println("COMPLIANCE TEST FAILED");
+    System.out.println("---------------------------------");
+    System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " FAILED");
     System.out.println(failedTest.toString());
-    System.out.println("Your outcome: " + userOutcome.toString());
+    System.out.println("Your outcome: " + testOutcome.outcome().toString());
     System.out.println();
+    System.out.println("Exit code: " + testOutcome.exitCode());
+    System.out.println("STDOUT:\n" + testOutcome.stdOut());
+    System.out.println();
+    System.out.println("STDERR:\n" + testOutcome.stdErr());
+    System.out.println("---------------------------------");
   }
 
   /**
@@ -58,13 +65,19 @@ public class TestsResult {
    * @param failedTest The info about the failed test
    * @param userOutcome The outcome of the parser
    */
-  public void reportFailureUserTests(TestInfo failedTest, SpecificationProtos.Outcome userOutcome) {
+  public void reportFailureUserTests(TestInfo failedTest, TestOutcome testOutcome) {
     this.totalNumberUserTests++;
     this.numberFailedUserTests++;
-    System.out.println("USER TEST FAILED");
+    System.out.println("---------------------------------");
+    System.out.println("USER TEST #" + totalNumberUserTests + "FAILED");
     System.out.println(failedTest.toString());
-    System.out.println("Your outcome: " + userOutcome.toString());
+    System.out.println("Your outcome: " + testOutcome.outcome().toString());
     System.out.println();
+    System.out.println("Exit code: " + testOutcome.exitCode());
+    System.out.println("STDOUT:\n" + testOutcome.stdOut());
+    System.out.println();
+    System.out.println("STDERR:\n" + testOutcome.stdErr());
+    System.out.println("---------------------------------");
   }
 
   @Override
