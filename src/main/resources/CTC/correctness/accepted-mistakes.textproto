@@ -44,6 +44,7 @@ tests:
             "Google specific: webmasters sometimes miss the colon separator, but it's"
             "obvious what they mean by \"disallow /\", so we assume the colon if it's missing.\n"
             "https://github.com/google/robotstxt/blob/master/robots.cc#L330"
+        test_type: GOOGLE_SPECIFIC
       }
     ]
   }

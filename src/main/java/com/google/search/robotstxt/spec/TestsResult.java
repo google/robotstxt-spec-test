@@ -20,15 +20,21 @@ import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 public class TestsResult {
   private int totalNumberComplianceTests;
   private int totalNumberUserTests;
+  private int totalNumberGoogleTests;
   private int numberFailedComplianceTests;
   private int numberFailedUserTests;
+  private int numberFailedGoogleTests;
 
   /** Default constructor */
   public TestsResult() {}
 
-  /** Reports the success of one Complience Test */
-  public void reportSuccessComplianceTests() {
-    this.totalNumberComplianceTests++;
+  /** Reports the success of one Compliance Test */
+  public void reportSuccessComplianceTests(TestInfo passedTest) {
+    if (passedTest.getTestType() == SpecificationProtos.TestType.GOOGLE_SPECIFIC) {
+      this.totalNumberGoogleTests++;
+    } else {
+      this.totalNumberComplianceTests++;
+    }
   }
 
   /** Reports the success of one user test */
@@ -44,8 +50,13 @@ public class TestsResult {
    */
   public void reportFailureComplianceTests(
       TestInfo failedTest, SpecificationProtos.Outcome userOutcome) {
-    this.totalNumberComplianceTests++;
-    this.numberFailedComplianceTests++;
+    if (failedTest.getTestType().equals(SpecificationProtos.TestType.GOOGLE_SPECIFIC)) {
+      this.totalNumberGoogleTests++;
+      this.numberFailedGoogleTests++;
+    } else {
+      this.totalNumberComplianceTests++;
+      this.numberFailedComplianceTests++;
+    }
     System.out.println("COMPLIANCE TEST FAILED");
     System.out.println(failedTest.toString());
     System.out.println("Your outcome: " + userOutcome.toString());
@@ -71,18 +82,31 @@ public class TestsResult {
   public String toString() {
     String result =
         "TEST RESULTS:"
-            + "\n"
-            + "Number of Compliance Tests: "
+            + "\nNumber of Compliance Tests: "
             + this.totalNumberComplianceTests
             + "\nNumber of Compliance Tests Failed: "
             + this.numberFailedComplianceTests
+            + "\nNumber of Google-specific Tests: "
+            + this.totalNumberGoogleTests
+            + "\nNumber of Google-specific Tests Failed: "
+            + this.numberFailedGoogleTests
             + "\nNumber of user's tests: "
             + this.totalNumberUserTests
             + "\nNumber of user's tests failed: "
             + this.numberFailedUserTests;
 
     if (this.numberFailedComplianceTests == 0) {
-      result = result + "\n\n" + "The parser FOLLOWS the standard";
+      if (this.numberFailedGoogleTests == 0) {
+        result =
+            result
+                + "\n\n"
+                + "The parser FOLLOWS the standard and adheres to Google's specifications";
+      } else {
+        result =
+            result
+                + "\n\n"
+                + "The parser FOLLOWS the standard but do not adhere to Google's specifications";
+      }
     } else {
       result = result + "\n\n" + "The parser DOES NOT FOLLOW the standard";
     }

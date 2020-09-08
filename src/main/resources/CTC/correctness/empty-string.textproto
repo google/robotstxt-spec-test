@@ -11,6 +11,7 @@ tests:
         useragent: "FooBot"
         expected_outcome: ALLOWED
         additional_explanation: "Google specific: Empty robots.txt: everything allowed."
+        test_type: GOOGLE_SPECIFIC
       },
       {
         testurl: ""
@@ -18,6 +19,7 @@ tests:
         expected_outcome: ALLOWED
         additional_explanation: "Google specific: "
             "All params empty: same as robots.txt empty, everything allowed."
+        test_type: GOOGLE_SPECIFIC
       }
     ]
   },
@@ -33,6 +35,7 @@ tests:
         additional_explanation: "Google specific: Empty user-agent to be matched: "
             "everything allowed.\n"
             "https://github.com/google/robotstxt/blob/master/robots.cc#L117"
+        test_type: GOOGLE_SPECIFIC
       } ,
       {
         testurl: ""
@@ -41,6 +44,7 @@ tests:
         additional_explanation: "Google specific: Empty url: implicitly disallowed."
             "Check how the path is extracted by the Google's robots.txt parser and matcher:\n"
             "https://github.com/google/robotstxt/blob/master/robots.cc#L117"
+        test_type: GOOGLE_SPECIFIC
       }
     ]
   }

@@ -29,7 +29,7 @@ public class ComplianceTestRunner implements TestRunner {
               testInfo.getRobotsTxtContent(), testInfo.getUrl(), testInfo.getUserAgent(), cmdArgs);
 
       if (userOutcome == testInfo.getExpectedOutcome()) {
-        result.reportSuccessComplianceTests();
+        result.reportSuccessComplianceTests(testInfo);
       } else {
         result.reportFailureComplianceTests(testInfo, userOutcome);
       }

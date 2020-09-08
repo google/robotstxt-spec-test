@@ -34,9 +34,15 @@ enum Outcome {
   DISALLOWED = 2;
 }
 
+enum TestType {
+  STANDARD = 0;
+  GOOGLE_SPECIFIC = 1;
+}
+
 message Expectation {
   optional string testurl = 1;
   optional string useragent = 2;
   optional Outcome expected_outcome = 3;
   optional string additional_explanation = 4;
+  optional TestType test_type = 5;
 }
