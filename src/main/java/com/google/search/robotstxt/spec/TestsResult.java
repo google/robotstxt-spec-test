@@ -15,21 +15,29 @@
 package com.google.search.robotstxt.spec;
 
 import com.google.search.robotstxt.spec.ParserMatcher.TestOutcome;
+import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 
 /** Holds the results of the tests performed */
 public class TestsResult {
   private int totalNumberComplianceTests;
   private int totalNumberUserTests;
+  private int totalNumberGoogleTests;
   private int numberFailedComplianceTests;
   private int numberFailedUserTests;
+  private int numberFailedGoogleTests;
 
   /** Default constructor */
   public TestsResult() {}
 
   /** Reports the success of one Complience Test */
-  public void reportSuccessComplianceTests() {
-    this.totalNumberComplianceTests++;
-    System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " PASSED");
+  public void reportSuccessComplianceTests(TestInfo passedTest) {
+    if (passedTest.getTestType() == SpecificationProtos.TestType.GOOGLE_SPECIFIC) {
+      this.totalNumberGoogleTests++;
+      System.out.println("GOOGLE TEST #" + totalNumberGoogleTests + " PASSED");
+    } else {
+      this.totalNumberComplianceTests++;
+      System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " PASSED");
+    }
   }
 
   /** Reports the success of one user test */
@@ -45,10 +53,17 @@ public class TestsResult {
    * @param userOutcome The outcome of the parser
    */
   public void reportFailureComplianceTests(TestInfo failedTest, TestOutcome testOutcome) {
-    this.totalNumberComplianceTests++;
-    this.numberFailedComplianceTests++;
     System.out.println("---------------------------------");
-    System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " FAILED");
+    if (failedTest.getTestType().equals(SpecificationProtos.TestType.GOOGLE_SPECIFIC)) {
+      this.totalNumberGoogleTests++;
+      this.numberFailedGoogleTests++;
+      System.out.println("GOOGLE TEST #" + totalNumberGoogleTests + " FAILED");
+    } else {
+      this.totalNumberComplianceTests++;
+      this.numberFailedComplianceTests++;
+      System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " FAILED");
+    }
+
     System.out.println(failedTest.toString());
     System.out.println("Your outcome: " + testOutcome.outcome().toString());
     System.out.println();
@@ -84,18 +99,31 @@ public class TestsResult {
   public String toString() {
     String result =
         "TEST RESULTS:"
-            + "\n"
-            + "Number of Compliance Tests: "
+            + "\nNumber of Compliance Tests: "
             + this.totalNumberComplianceTests
             + "\nNumber of Compliance Tests Failed: "
             + this.numberFailedComplianceTests
+            + "\nNumber of Google-specific Tests: "
+            + this.totalNumberGoogleTests
+            + "\nNumber of Google-specific Tests Failed: "
+            + this.numberFailedGoogleTests
             + "\nNumber of user's tests: "
             + this.totalNumberUserTests
             + "\nNumber of user's tests failed: "
             + this.numberFailedUserTests;
 
     if (this.numberFailedComplianceTests == 0) {
-      result = result + "\n\n" + "The parser FOLLOWS the standard";
+      if (this.numberFailedGoogleTests == 0) {
+        result =
+            result
+                + "\n\n"
+                + "The parser FOLLOWS the standard and adheres to Google's specifications";
+      } else {
+        result =
+            result
+                + "\n\n"
+                + "The parser FOLLOWS the standard but do not adhere to Google's specifications";
+      }
     } else {
       result = result + "\n\n" + "The parser DOES NOT FOLLOW the standard";
     }

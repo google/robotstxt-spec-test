@@ -27,9 +27,8 @@ public class ComplianceTestRunner implements TestRunner {
       TestOutcome userOutcome =
           parserMatcher.getOutcome(
               testInfo.getRobotsTxtContent(), testInfo.getUrl(), testInfo.getUserAgent(), cmdArgs);
-
       if (userOutcome.outcome() == testInfo.getExpectedOutcome()) {
-        result.reportSuccessComplianceTests();
+        result.reportSuccessComplianceTests(testInfo);
       } else {
         result.reportFailureComplianceTests(testInfo, userOutcome);
       }

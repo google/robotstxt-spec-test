@@ -57,20 +57,31 @@ public class TestInfo {
     return this.expectation.getAdditionalExplanation();
   }
 
+  public SpecificationProtos.TestType getTestType() {
+    return this.expectation.getTestType();
+  }
+
   public String toString() {
-    return "The robots.txt content: \n"
-        + new String(this.robotsTxtContent, StandardCharsets.UTF_8)
-        + "\n\n"
-        + "The URL: "
-        + this.expectation.getTesturl()
-        + "\n"
-        + "The user-agent: "
-        + this.expectation.getUseragent()
-        + "\n"
-        + "The expected outcome: "
-        + this.expectation.getExpectedOutcome()
-        + "\n"
-        + "The additional explanation: "
-        + this.expectation.getAdditionalExplanation();
+    String testInfo =
+        "The robots.txt content: \n"
+            + new String(this.robotsTxtContent, StandardCharsets.UTF_8)
+            + "\n\n"
+            + "The URL: "
+            + this.expectation.getTesturl()
+            + "\n"
+            + "The user-agent: "
+            + this.expectation.getUseragent()
+            + "\n"
+            + "The expected outcome: "
+            + this.expectation.getExpectedOutcome()
+            + "\n"
+            + "The additional explanation: "
+            + this.expectation.getAdditionalExplanation();
+
+    if (this.getTestType() == SpecificationProtos.TestType.GOOGLE_SPECIFIC) {
+      testInfo = testInfo + "\n" + "The test's type: " + this.expectation.getTestType();
+    }
+
+    return testInfo;
   }
 }
