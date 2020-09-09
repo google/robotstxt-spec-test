@@ -22,6 +22,9 @@ public class TestsResult {
   private int totalNumberComplianceTests;
   private int totalNumberUserTests;
   private int totalNumberGoogleTests;
+  private int currentNumberComplianceTests;
+  private int currentNumberUserTests;
+  private int currentNumberGoogleTests;
   private int numberFailedComplianceTests;
   private int numberFailedUserTests;
   private int numberFailedGoogleTests;
@@ -29,21 +32,40 @@ public class TestsResult {
   /** Default constructor */
   public TestsResult() {}
 
+  public void setTotalNumberComplianceTests(int totalNumberComplianceTests) {
+    this.totalNumberComplianceTests = totalNumberComplianceTests;
+  }
+
+  public void setTotalNumberGoogleTests(int totalNumberGoogleTests) {
+    this.totalNumberGoogleTests = totalNumberGoogleTests;
+  }
+
+  public void setTotalNumberUserTests(int totalNumberUserTests) {
+    this.totalNumberUserTests = totalNumberUserTests;
+  }
+
   /** Reports the success of one Complience Test */
   public void reportSuccessComplianceTests(TestInfo passedTest) {
     if (passedTest.getTestType() == SpecificationProtos.TestType.GOOGLE_SPECIFIC) {
-      this.totalNumberGoogleTests++;
-      System.out.println("GOOGLE TEST #" + totalNumberGoogleTests + " PASSED");
+      this.currentNumberGoogleTests++;
+      System.out.println(
+          "GOOGLE TEST #" + currentNumberGoogleTests + "/" + totalNumberGoogleTests + " PASSED");
     } else {
-      this.totalNumberComplianceTests++;
-      System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " PASSED");
+      this.currentNumberComplianceTests++;
+      System.out.println(
+          "COMPLIANCE TEST #"
+              + currentNumberComplianceTests
+              + "/"
+              + totalNumberComplianceTests
+              + " PASSED");
     }
   }
 
   /** Reports the success of one user test */
   public void reportSuccessUserTests() {
-    this.totalNumberUserTests++;
-    System.out.println("USER TEST #" + totalNumberUserTests + "PASSED");
+    this.currentNumberUserTests++;
+    System.out.println(
+        "USER TEST #" + currentNumberUserTests + "/" + totalNumberUserTests + " PASSED");
   }
 
   /**
@@ -55,13 +77,19 @@ public class TestsResult {
   public void reportFailureComplianceTests(TestInfo failedTest, TestOutcome testOutcome) {
     System.out.println("---------------------------------");
     if (failedTest.getTestType().equals(SpecificationProtos.TestType.GOOGLE_SPECIFIC)) {
-      this.totalNumberGoogleTests++;
+      this.currentNumberUserTests++;
       this.numberFailedGoogleTests++;
-      System.out.println("GOOGLE TEST #" + totalNumberGoogleTests + " FAILED");
+      System.out.println(
+          "GOOGLE TEST #" + currentNumberGoogleTests + "/" + totalNumberGoogleTests + " FAILED");
     } else {
-      this.totalNumberComplianceTests++;
+      this.currentNumberComplianceTests++;
       this.numberFailedComplianceTests++;
-      System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " FAILED");
+      System.out.println(
+          "COMPLIANCE TEST #"
+              + currentNumberComplianceTests
+              + "/"
+              + totalNumberComplianceTests
+              + " FAILED");
     }
 
     System.out.println("Test file path: " + failedTest.getTestFilePath());
@@ -82,10 +110,11 @@ public class TestsResult {
    * @param testOutcome The outcome of the parser
    */
   public void reportFailureUserTests(TestInfo failedTest, TestOutcome testOutcome) {
-    this.totalNumberUserTests++;
+    this.currentNumberUserTests++;
     this.numberFailedUserTests++;
     System.out.println("---------------------------------");
-    System.out.println("USER TEST #" + totalNumberUserTests + "FAILED");
+    System.out.println(
+        "USER TEST #" + currentNumberUserTests + "/" + totalNumberUserTests + " FAILED");
     System.out.println("Test file path: " + failedTest.getTestFilePath());
     System.out.println(failedTest.toString());
     System.out.println("Your outcome: " + testOutcome.outcome().toString());

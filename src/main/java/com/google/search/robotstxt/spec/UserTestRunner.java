@@ -23,6 +23,10 @@ public class UserTestRunner implements TestRunner {
   public void runTests(
       List<TestInfo> testCases, ParserMatcher parserMatcher, CMDArgs cmdArgs, TestsResult result)
       throws Exception {
+    // Calculate the total number of User test cases
+    result.setTotalNumberUserTests(testCases.size());
+
+    // Run each test case
     for (TestInfo testInfo : testCases) {
       TestOutcome userOutcome =
           parserMatcher.getOutcome(
