@@ -14,6 +14,7 @@
 
 package com.google.search.robotstxt.spec;
 
+import com.google.search.robotstxt.spec.ParserMatcher.TestOutcome;
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 
 /** Holds the results of the tests performed */
@@ -28,18 +29,21 @@ public class TestsResult {
   /** Default constructor */
   public TestsResult() {}
 
-  /** Reports the success of one Compliance Test */
+  /** Reports the success of one Complience Test */
   public void reportSuccessComplianceTests(TestInfo passedTest) {
     if (passedTest.getTestType() == SpecificationProtos.TestType.GOOGLE_SPECIFIC) {
       this.totalNumberGoogleTests++;
+      System.out.println("GOOGLE TEST #" + totalNumberGoogleTests + " PASSED");
     } else {
       this.totalNumberComplianceTests++;
+      System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " PASSED");
     }
   }
 
   /** Reports the success of one user test */
   public void reportSuccessUserTests() {
     this.totalNumberUserTests++;
+    System.out.println("USER TEST #" + totalNumberUserTests + "PASSED");
   }
 
   /**
@@ -48,19 +52,26 @@ public class TestsResult {
    * @param failedTest The info about the failed test
    * @param userOutcome The outcome of the parser
    */
-  public void reportFailureComplianceTests(
-      TestInfo failedTest, SpecificationProtos.Outcome userOutcome) {
+  public void reportFailureComplianceTests(TestInfo failedTest, TestOutcome testOutcome) {
+    System.out.println("---------------------------------");
     if (failedTest.getTestType().equals(SpecificationProtos.TestType.GOOGLE_SPECIFIC)) {
       this.totalNumberGoogleTests++;
       this.numberFailedGoogleTests++;
+      System.out.println("GOOGLE TEST #" + totalNumberGoogleTests + " FAILED");
     } else {
       this.totalNumberComplianceTests++;
       this.numberFailedComplianceTests++;
+      System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " FAILED");
     }
-    System.out.println("COMPLIANCE TEST FAILED");
+
     System.out.println(failedTest.toString());
-    System.out.println("Your outcome: " + userOutcome.toString());
+    System.out.println("Your outcome: " + testOutcome.outcome().toString());
     System.out.println();
+    System.out.println("Exit code: " + testOutcome.exitCode());
+    System.out.println("STDOUT:\n" + testOutcome.stdOut());
+    System.out.println();
+    System.out.println("STDERR:\n" + testOutcome.stdErr());
+    System.out.println("---------------------------------");
   }
 
   /**
@@ -69,13 +80,19 @@ public class TestsResult {
    * @param failedTest The info about the failed test
    * @param userOutcome The outcome of the parser
    */
-  public void reportFailureUserTests(TestInfo failedTest, SpecificationProtos.Outcome userOutcome) {
+  public void reportFailureUserTests(TestInfo failedTest, TestOutcome testOutcome) {
     this.totalNumberUserTests++;
     this.numberFailedUserTests++;
-    System.out.println("USER TEST FAILED");
+    System.out.println("---------------------------------");
+    System.out.println("USER TEST #" + totalNumberUserTests + "FAILED");
     System.out.println(failedTest.toString());
-    System.out.println("Your outcome: " + userOutcome.toString());
+    System.out.println("Your outcome: " + testOutcome.outcome().toString());
     System.out.println();
+    System.out.println("Exit code: " + testOutcome.exitCode());
+    System.out.println("STDOUT:\n" + testOutcome.stdOut());
+    System.out.println();
+    System.out.println("STDERR:\n" + testOutcome.stdErr());
+    System.out.println("---------------------------------");
   }
 
   @Override

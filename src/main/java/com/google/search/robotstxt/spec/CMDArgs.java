@@ -14,7 +14,12 @@
 
 package com.google.search.robotstxt.spec;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import org.apache.maven.shared.utils.cli.CommandLineUtils;
 
@@ -172,5 +177,17 @@ public class CMDArgs {
     Process process = Runtime.getRuntime().exec(command);
 
     return process;
+  }
+
+  /**
+   * Converts the InputStream into a String, interpreting as UTF-8 string and closes it.
+   *
+   * <p>The method is general purpose, but it is intended to be used with the stdout or stderr from
+   * a process.
+   */
+  public static String outputToString(InputStream processOutput) throws IOException {
+    try (InputStreamReader streamReader = new InputStreamReader(processOutput, Charsets.UTF_8)) {
+      return CharStreams.toString(streamReader);
+    }
   }
 }
