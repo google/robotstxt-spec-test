@@ -50,7 +50,7 @@ public class TestsResult {
    * Adds the failure of one Compliance Test
    *
    * @param failedTest The info about the failed test
-   * @param userOutcome The outcome of the parser
+   * @param testOutcome The outcome of the parser
    */
   public void reportFailureComplianceTests(TestInfo failedTest, TestOutcome testOutcome) {
     System.out.println("---------------------------------");
@@ -64,6 +64,7 @@ public class TestsResult {
       System.out.println("COMPLIANCE TEST #" + totalNumberComplianceTests + " FAILED");
     }
 
+    System.out.println("Test file path: " + failedTest.getTestFilePath());
     System.out.println(failedTest.toString());
     System.out.println("Your outcome: " + testOutcome.outcome().toString());
     System.out.println();
@@ -78,13 +79,14 @@ public class TestsResult {
    * Adds the failure of one user test
    *
    * @param failedTest The info about the failed test
-   * @param userOutcome The outcome of the parser
+   * @param testOutcome The outcome of the parser
    */
   public void reportFailureUserTests(TestInfo failedTest, TestOutcome testOutcome) {
     this.totalNumberUserTests++;
     this.numberFailedUserTests++;
     System.out.println("---------------------------------");
     System.out.println("USER TEST #" + totalNumberUserTests + "FAILED");
+    System.out.println("Test file path: " + failedTest.getTestFilePath());
     System.out.println(failedTest.toString());
     System.out.println("Your outcome: " + testOutcome.outcome().toString());
     System.out.println();

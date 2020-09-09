@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 /** Information about a specific test case */
 public class TestInfo {
   private byte[] robotsTxtContent;
+  private String testFilePath;
   private SpecificationProtos.Expectation expectation;
 
   /** Default constructor */
@@ -32,13 +33,19 @@ public class TestInfo {
    * @param expectation The structure from specification.proto (url, user-agent, expected outcome,
    *     explanation)
    */
-  public TestInfo(byte[] robotsTxtContent, SpecificationProtos.Expectation expectation) {
+  public TestInfo(
+      byte[] robotsTxtContent, String testFilePath, SpecificationProtos.Expectation expectation) {
     this.robotsTxtContent = robotsTxtContent;
+    this.testFilePath = testFilePath;
     this.expectation = expectation;
   }
 
   public byte[] getRobotsTxtContent() {
     return robotsTxtContent;
+  }
+
+  public String getTestFilePath() {
+    return testFilePath;
   }
 
   public String getUrl() {
