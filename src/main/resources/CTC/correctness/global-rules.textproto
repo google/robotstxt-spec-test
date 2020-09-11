@@ -1,0 +1,66 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: ""
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "If no group matches the user-agent, crawlers must obey "
+            "the first group with a user-agent line with a \"*\" value, if present. "
+            "If no group satisfies either condition, or no groups are present at all, no rules apply."
+            "See REP I-D section \"The user-agent line\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1"
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: *\n"
+        "disallow: /x\n"
+        "user-agent: FooBot\n"
+        "allow: /x/y\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: ""
+      },
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "BarBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "If no group matches the user-agent, crawlers must obey "
+            "the first group with a user-agent line with a \"*\" value, if present. "
+            "See REP I-D section \"The user-agent line\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1"
+      }
+    ]
+  } ,
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /\n"
+        "user-agent: BarBot\n"
+        "disallow: /\n"
+        "user-agent: BazBot\n"
+        "disallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "QuxBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "If no group matches the user-agent, crawlers must obey "
+            "the first group with a user-agent line with a \"*\" value, if present. "
+            "If no group satisfies either condition, or no groups are present at all, no rules apply."
+            "See REP I-D section \"The user-agent line\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.1"
+      }
+    ]
+  }
+]

@@ -1,0 +1,74 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: barbot\n"
+        "Disallow: /\n"
+        "\n"
+        "User-agent: bazbot\n"
+        "Disallow: /\n"
+        "\n"
+        "User-agent: qux_bot\n"
+        "Crawl-delay: 1\n"
+        "\n"
+        "User-agent: *\n"
+        "Allow: /\n"
+        "\n"
+        "User-agent: *\n"
+        "Crawl-delay: 1\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "barbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/foo/foo"
+        useragent: "barbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/index.html"
+        useragent: "barbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/secrets/123"
+        useragent: "bazbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/log?id=113"
+        useragent: "bazbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/index.html"
+        useragent: "qux_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "qux_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "qux_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/log?id=113"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      }
+    ]
+  }
+]

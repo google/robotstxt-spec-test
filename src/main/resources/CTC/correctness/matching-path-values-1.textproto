@@ -1,0 +1,280 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /\n"
+        "allow: /fish\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/bar"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/fish"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/fish.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/fish/salmon.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/fishheads"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/fishheads/yummy.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/fish.html?id=anything"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/Fish.asp"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/catfish"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/?id=fish"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /\n"
+        "allow: /fish*\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/bar"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish*\" equals \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish*\" equals \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish*\" equals \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish/salmon.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish*\" equals \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fishheads"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish*\" equals \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fishheads/yummy.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish*\" equals \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish.html?id=anything"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish*\" equals \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/Fish.bar"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish*\" equals \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/catfish"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish*\" equals \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/?id=fish"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish*\" equals \"/fish\""
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /\n"
+        "allow: /fish/\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/bar"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish/\" does not equal \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish/"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish/\" does not equal \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish/salmon"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish/\" does not equal \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish/?salmon"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish/\" does not equal \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish/salmon.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish/\" does not equal \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish/?id=anything"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish/\" does not equal \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish/\" does not equal \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/fish.html"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish/\" does not equal \"/fish\""
+      },
+      {
+        testurl: "http://foo.bar/Fish/Salmon.html"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\".\n"
+            "\"/fish/\" does not equal \"/fish\""
+      }
+    ]
+  }
+]

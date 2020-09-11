@@ -14,7 +14,7 @@
 
 package com.google.search.robotstxt.spec;
 
-import com.google.common.base.Charsets;
+import com.google.common.base.Splitter;
 import com.google.common.io.Files;
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 import java.io.*;
@@ -24,34 +24,41 @@ import java.util.regex.Pattern;
 /** Handles a parser that outputs its outcome by printing at stdout */
 public class PrintingParserMatcher implements ParserMatcher {
   @Override
-  public SpecificationProtos.Outcome getOutcome(
-      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws Exception {
+  public TestOutcome getOutcome(
+      byte[] robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws Exception {
     // Create temporary file for the robots.txt content and pass the path as argument
     File robotsTxtPath = File.createTempFile("robots_", ".tmp.txt");
-    Files.asCharSink(robotsTxtPath, Charsets.UTF_8).write(robotsTxtContent);
+    Files.asByteSink(robotsTxtPath).write(robotsTxtContent);
 
     // Run the parser
     Process process = cmdArgs.runParser(robotsTxtPath, url, userAgent);
     process.waitFor();
 
-    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    String line = "";
+    String stdOut = CMDArgs.outputToString(process.getInputStream());
+    TestOutcome.Builder testOutcome =
+        TestOutcome.builder()
+            .setStdOut(stdOut)
+            .setStdErr(CMDArgs.outputToString(process.getErrorStream()))
+            .setExitCode(process.exitValue())
+            .setOutcome(SpecificationProtos.Outcome.UNSPECIFIED);
 
     Pattern allowedPattern = Pattern.compile(cmdArgs.getAllowedPattern());
     Pattern disallowedPattern = Pattern.compile(cmdArgs.getDisallowedPattern());
 
     // Pattern-matching for the regular expression
-    while ((line = reader.readLine()) != null) {
+    for (String line : Splitter.on('\n').split(stdOut)) {
       Matcher allowedMatcher = allowedPattern.matcher(line);
       Matcher disallowedMatcher = disallowedPattern.matcher(line);
 
       // Test the outcome
       if (disallowedMatcher.find()) {
-        return SpecificationProtos.Outcome.DISALLOWED;
+        testOutcome.setOutcome(SpecificationProtos.Outcome.DISALLOWED);
+        break;
       } else if (allowedMatcher.find()) {
-        return SpecificationProtos.Outcome.ALLOWED;
+        testOutcome.setOutcome(SpecificationProtos.Outcome.ALLOWED);
+        break;
       }
     }
-    return SpecificationProtos.Outcome.UNSPECIFIED;
+    return testOutcome.build();
   }
 }

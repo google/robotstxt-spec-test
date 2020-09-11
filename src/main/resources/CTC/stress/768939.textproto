@@ -1,0 +1,57 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: *\n"
+        "Crawl-delay: 3500\n"
+        "Disallow: /ab_controller\n"
+        "Disallow: /ab_imports\n"
+        "Disallow: /ab_content/bar\n"
+        "Disallow: /ab_content/cache\n"
+        "Disallow: /ab_content/baz\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://www.example.com/ab_controller"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/ab_controller-foo"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/ab_imports/foo.txt"
+        useragent: "foo-bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/foo/bar"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/ab_content/foo"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/ab_content/bar/foo.bar"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/ab_content/cache-foo"
+        useragent: "foo-bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      }
+    ]
+  }
+]

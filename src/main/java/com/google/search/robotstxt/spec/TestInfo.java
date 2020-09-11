@@ -15,10 +15,12 @@
 package com.google.search.robotstxt.spec;
 
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
+import java.nio.charset.StandardCharsets;
 
 /** Information about a specific test case */
 public class TestInfo {
-  private String robotsTxtContent;
+  private byte[] robotsTxtContent;
+  private String testFilePath;
   private SpecificationProtos.Expectation expectation;
 
   /** Default constructor */
@@ -31,13 +33,19 @@ public class TestInfo {
    * @param expectation The structure from specification.proto (url, user-agent, expected outcome,
    *     explanation)
    */
-  public TestInfo(String robotsTxtContent, SpecificationProtos.Expectation expectation) {
+  public TestInfo(
+      byte[] robotsTxtContent, String testFilePath, SpecificationProtos.Expectation expectation) {
     this.robotsTxtContent = robotsTxtContent;
+    this.testFilePath = testFilePath;
     this.expectation = expectation;
   }
 
-  public String getRobotsTxtContent() {
+  public byte[] getRobotsTxtContent() {
     return robotsTxtContent;
+  }
+
+  public String getTestFilePath() {
+    return testFilePath;
   }
 
   public String getUrl() {
@@ -56,20 +64,31 @@ public class TestInfo {
     return this.expectation.getAdditionalExplanation();
   }
 
+  public SpecificationProtos.TestType getTestType() {
+    return this.expectation.getTestType();
+  }
+
   public String toString() {
-    return "The robots.txt content: \n"
-        + this.robotsTxtContent
-        + "\n\n"
-        + "The URL: "
-        + this.expectation.getTesturl()
-        + "\n"
-        + "The user-agent: "
-        + this.expectation.getUseragent()
-        + "\n"
-        + "The expected outcome: "
-        + this.expectation.getExpectedOutcome()
-        + "\n"
-        + "The additional explanation: "
-        + this.expectation.getAdditionalExplanation();
+    String testInfo =
+        "The robots.txt content: \n"
+            + new String(this.robotsTxtContent, StandardCharsets.UTF_8)
+            + "\n\n"
+            + "The URL: "
+            + this.expectation.getTesturl()
+            + "\n"
+            + "The user-agent: "
+            + this.expectation.getUseragent()
+            + "\n"
+            + "The expected outcome: "
+            + this.expectation.getExpectedOutcome()
+            + "\n"
+            + "The additional explanation: "
+            + this.expectation.getAdditionalExplanation();
+
+    if (this.getTestType() == SpecificationProtos.TestType.GOOGLE_SPECIFIC) {
+      testInfo = testInfo + "\n" + "The test's type: " + this.expectation.getTestType();
+    }
+
+    return testInfo;
   }
 }

@@ -1,0 +1,112 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: foofoobot*\n"
+        "Disallow: /workers/\n"
+        "Disallow: /media/common/\n"
+        "Disallow: /misc/\n"
+        "Disallow: /bin/\n"
+        "Disallow: /trash/\n"
+        "\n"
+        "User-agent: barbarbot*\n"
+        "Disallow: /workers/\n"
+        "Disallow: /media/common/\n"
+        "Disallow: /misc/\n"
+        "Disallow: /bin/\n"
+        "Disallow: /trash/\n"
+        "\n"
+        "User-agent: quxbot\n"
+        "Disallow: /workers/\n"
+        "Disallow: /media/common/\n"
+        "Disallow: /misc/\n"
+        "Disallow: /bin/\n"
+        "Disallow: /trash/\n"
+        "\n"
+        "User-agent: ddbot\n"
+        "Disallow: /workers/\n"
+        "Disallow: /media/common/\n"
+        "Disallow: /misc/\n"
+        "Disallow: /bin/\n"
+        "Disallow: /trash/\n"
+        "\n"
+        "User-agent: toebot\n"
+        "Disallow: /workers/\n"
+        "Disallow: /media/common/\n"
+        "Disallow: /misc/\n"
+        "Disallow: /bin/\n"
+        "Disallow: /trash/\n"
+        "\n"
+        "User-agent: io_tester\n"
+        "Disallow: /workers/\n"
+        "Disallow: /media/common/\n"
+        "Disallow: /misc/\n"
+        "Disallow: /bin/\n"
+        "Disallow: /trash/\n"
+        "\n"
+        "User-agent: *\n"
+        "Disallow: /\n"
+        "\n"
+        "\n"
+        "Sitemap: http://www.example.com/sitemap.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/workers/log"
+        useragent: "foofoobot-exp"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/trash/index.html"
+        useragent: "foofoobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/bin/bash"
+        useragent: "barbarbot-prod"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "barbarbot-prod"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/bin/bash"
+        useragent: "barbarbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "barbarbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/qux/qux/qux"
+        useragent: "quxbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/trash/view.html"
+        useragent: "quxbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/search?req=123"
+        useragent: "io_tester"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/media/common/123"
+        useragent: "io_tester"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/search?req=123"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

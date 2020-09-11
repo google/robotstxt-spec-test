@@ -1,0 +1,79 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: *\n"
+        "Disallow: /dump-*\n"
+        "Disallow: /vlog/dump-*\n"
+        "Disallow: /_pcms/preview/\n"
+        "Disallow: /tf/manage-roles/\n"
+        "\n"
+        "Sitemap: https://www.example.com/sitemap.xml\n"
+        "Disallow: /_pcms/preview/\n"
+        "Disallow: /tf/manage-roles/\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://www.example.com/index.html"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/dump-"
+        useragent: "foo-bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/dump"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/dump-786"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/vlog/123"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/vlog/dump-123"
+        useragent: "foo-bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/_pcms/test.txt"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/_pcms/preview/test.txt"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/pcms/preview/test.txt"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/tf/manage-roles/foo/bar"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/tf/manage-roles/"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/tf/index.html"
+        useragent: "foo_bot"
+        expected_outcome: ALLOWED
+      }
+    ]
+  }
+]

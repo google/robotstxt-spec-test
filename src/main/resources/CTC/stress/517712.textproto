@@ -1,0 +1,81 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "# Some comment\n"
+        "# http://www.exapmle.com/something.html\n"
+        "\n"
+        "\n"
+        "\n"
+        "# Some more explanation to lines below\n"
+        "# (and some line wrapping)\n"
+        "\n"
+        "User-agent: *\n"
+        "Disallow:\n"
+        "\n"
+        "\n"
+        "\n"
+        "# Some comments regarding some specific robot restrictions\n"
+        "# maybe regarding his functionality\n"
+        "# and some website to visit\n"
+        "# http://www.example.com/some/help/about/quxbot?arg=123\n"
+        "\n"
+        "User-Agent: Quxbot\n"
+        "Disallow: /*dispatch_request$\n"
+        "Disallow: /*directory_ctors$\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/search?req=123"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar/dispatch_request"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/bar/baz/foler_ctors"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "Quxbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/robots.txt"
+        useragent: "barbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/baz/dispatch_request"
+        useragent: "Quxbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/baz/dispatch_request?args=123"
+        useragent: "Quxbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/new_directory_ctors"
+        useragent: "Quxbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/bar/baz/directory_ctors"
+        useragent: "Quxbot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

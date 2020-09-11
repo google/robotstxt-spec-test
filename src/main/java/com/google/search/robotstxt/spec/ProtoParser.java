@@ -34,12 +34,15 @@ public class ProtoParser {
    * @param testCases The list
    */
   private void addTestInfoObjects(
-      SpecificationProtos.RobotsTxtSpecification robotsTxtSpec, List<TestInfo> testCases) {
+      SpecificationProtos.RobotsTxtSpecification robotsTxtSpec,
+      String path,
+      List<TestInfo> testCases) {
     for (SpecificationProtos.RobotsTxtTest robotsTxtTest : robotsTxtSpec.getTestsList()) {
-      String robotsTxtContent = robotsTxtTest.getRobotstxt();
+      byte[] robotsTxtContent = new byte[robotsTxtTest.getRobotstxt().size()];
+      robotsTxtTest.getRobotstxt().copyTo(robotsTxtContent, 0);
 
       for (SpecificationProtos.Expectation expectation : robotsTxtTest.getTestExpectationsList()) {
-        TestInfo testInfo = new TestInfo(robotsTxtContent, expectation);
+        TestInfo testInfo = new TestInfo(robotsTxtContent, path, expectation);
         testCases.add(testInfo);
       }
     }
@@ -55,7 +58,7 @@ public class ProtoParser {
       throws java.io.FileNotFoundException, java.io.IOException {
     File dir;
     if (dirPath.equals("/CTC")) {
-      dir = new File(getClass().getResource(dirPath).getFile());
+      dir = new File(getClass().getResource("/CTC").getFile());
     } else {
       dir = new File(dirPath);
     }
@@ -77,7 +80,7 @@ public class ProtoParser {
       TextFormat.merge(text, builder);
       SpecificationProtos.RobotsTxtSpecification robotsTxtSpec = builder.build();
 
-      addTestInfoObjects(robotsTxtSpec, testCases);
+      addTestInfoObjects(robotsTxtSpec, testFile.toString(), testCases);
     }
 
     return testCases;

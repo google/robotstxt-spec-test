@@ -1,0 +1,70 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-Agent: *\n"
+        "Disallow: /error$\n"
+        "Disallow: /jm/com.example.FooController\n"
+        "Disallow: /log\n"
+        "Disallow: /admin$\n"
+        "Disallow: /adminactions$\n"
+        "Disallow: /adminactions?\n"
+        "Disallow: /baz\n"
+        "Disallow: /jm/com.example.BarController\n"
+        "Sitemap: https://example.com/sitemap.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/error?user=admin"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/error"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/search/foo"
+        useragent: "foo_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/log"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/adminactions"
+        useragent: "foo-bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/adminactions?id=123"
+        useragent: "foo-bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/adminactions/new"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/jm/test.txt"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/jm/com.example.BarController"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      }
+    ]
+  }
+]

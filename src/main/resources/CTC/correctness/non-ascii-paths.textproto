@@ -1,0 +1,123 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt:  "User-agent: FooBot\n"
+        "Disallow: /\n"
+        "Allow: /foo/bar?qux=taz&baz=http://foo.bar?tar&par\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/foo/bar?qux=taz&baz=http://foo.bar?tar&par"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Octets in the URI and robots.txt paths outside the range "
+            "of the US-ASCII coded character set, and those in the reserved range defined "
+            "by RFC3986, MUST be percent-encoded as defined by RFC3986 prior to comparison. "
+            "See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2\n"
+            "NOTE: It's up to the caller to percent encode a URL before passing it to the "
+            "parser. Percent encoding URIs in the rules is unnecessary."
+      }
+    ]
+  },
+  {
+    robotstxt: "User-agent: FooBot\n"
+        "Disallow: /\n"
+        "Allow: /foo/bar/ツ\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/foo/bar/%E3%83%84"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Octets in the URI and robots.txt paths outside the range "
+            "of the US-ASCII coded character set, and those in the reserved range defined "
+            "by RFC3986, MUST be percent-encoded as defined by RFC3986 prior to comparison. "
+            "See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2\n"
+            "NOTE: It's up to the caller to percent encode a URL before passing it to the "
+            "parser. Percent encoding URIs in the rules is unnecessary."
+      },
+      {
+        testurl: "http://foo.bar/foo/bar/ツ"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Octets in the URI and robots.txt paths outside the range "
+            "of the US-ASCII coded character set, and those in the reserved range defined "
+            "by RFC3986, MUST be percent-encoded as defined by RFC3986 prior to comparison. "
+            "See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2\n"
+            "NOTE: It's up to the caller to percent encode a URL before passing it to the "
+            "parser. Percent encoding URIs in the rules is unnecessary."
+      }
+    ]
+  },
+  {
+    robotstxt: "User-agent: FooBot\n"
+        "Disallow: /\n"
+        "Allow: /foo/bar/%E3%83%84\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/foo/bar/%E3%83%84"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Octets in the URI and robots.txt paths outside the range "
+            "of the US-ASCII coded character set, and those in the reserved range defined "
+            "by RFC3986, MUST be percent-encoded as defined by RFC3986 prior to comparison. "
+            "See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2\n"
+            "NOTE: It's up to the caller to percent encode a URL before passing it to the "
+            "parser. Percent encoding URIs in the rules is unnecessary."
+      },
+      {
+        testurl: "http://foo.bar/foo/bar/ツ"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Octets in the URI and robots.txt paths outside the range "
+            "of the US-ASCII coded character set, and those in the reserved range defined "
+            "by RFC3986, MUST be percent-encoded as defined by RFC3986 prior to comparison. "
+            "See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2\n"
+            "NOTE: It's up to the caller to percent encode a URL before passing it to the "
+            "parser. Percent encoding URIs in the rules is unnecessary."
+      }
+    ]
+  },
+  {
+    robotstxt: "User-agent: FooBot\n"
+        "Disallow: /\n"
+        "Allow: /foo/bar/%62%61%7A\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/foo/bar/baz"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Octets in the URI and robots.txt paths outside the range "
+            "of the US-ASCII coded character set, and those in the reserved range defined "
+            "by RFC3986, MUST be percent-encoded as defined by RFC3986 prior to comparison. "
+            "See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2\n"
+            "Percent encoded unreserved US-ASCII: /foo/bar/%62%61%7A -> NULL"
+            "This is illegal according to RFC3986 and while it may work here due to "
+            "simple string matching, it should not be relied on."
+      },
+      {
+        testurl: "http://foo.bar/foo/bar/%62%61%7A"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Octets in the URI and robots.txt paths outside the range "
+            "of the US-ASCII coded character set, and those in the reserved range defined "
+            "by RFC3986, MUST be percent-encoded as defined by RFC3986 prior to comparison. "
+            "See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2\n"
+            "Percent encoded unreserved US-ASCII: /foo/bar/%62%61%7A -> NULL"
+            "This is illegal according to RFC3986 and while it may work here due to "
+            "simple string matching, it should not be relied on."
+      }
+    ]
+  }
+]

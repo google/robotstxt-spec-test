@@ -1,0 +1,84 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: admin\n"
+        "Disallow:\n"
+        "\n"
+        "User-agent: *\n"
+        "Disallow: /buzz\n"
+        "Allow: /\n"
+        "\n"
+        "Sitemap: http://example.com/sitemap.xml\n"
+        "\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/buzz/settings"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/buzz-lite"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/qux/bar"
+        useragent: "barbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/buzz"
+        useragent: "quxbot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/prod/buzz"
+        useragent: "bazbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/anotherbuzz/x"
+        useragent: "barbot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/rebuzz/x"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/buzz/buzz/buzz"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/searc/buzz"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/buzz/searc"
+        useragent: "bar-bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/buzz/ses"
+        useragent: "admin"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "admin"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/buzz"
+        useragent: "admin"
+        expected_outcome: ALLOWED
+      }
+    ]
+  }
+]

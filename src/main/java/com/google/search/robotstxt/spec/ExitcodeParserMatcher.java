@@ -14,7 +14,6 @@
 
 package com.google.search.robotstxt.spec;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 import java.io.File;
@@ -22,25 +21,33 @@ import java.io.File;
 /** Handles a parser that outputs its outcome by exiting with a specific code */
 public class ExitcodeParserMatcher implements ParserMatcher {
   @Override
-  public SpecificationProtos.Outcome getOutcome(
-      String robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws Exception {
+  public TestOutcome getOutcome(
+      byte[] robotsTxtContent, String url, String userAgent, CMDArgs cmdArgs) throws Exception {
     // Create temporary file for the robots.txt content and pass the path as argument
     File robotsTxtPath = File.createTempFile("robots_", ".tmp.txt");
-    Files.asCharSink(robotsTxtPath, Charsets.UTF_8).write(robotsTxtContent);
+    Files.asByteSink(robotsTxtPath).write(robotsTxtContent);
 
     // Run the parser
     Process process = cmdArgs.runParser(robotsTxtPath, url, userAgent);
     process.waitFor();
+
+    TestOutcome.Builder testOutcome =
+        TestOutcome.builder()
+            .setStdOut(CMDArgs.outputToString(process.getInputStream()))
+            .setStdErr(CMDArgs.outputToString(process.getErrorStream()))
+            .setExitCode(process.exitValue())
+            .setOutcome(SpecificationProtos.Outcome.UNSPECIFIED);
 
     // Convert the exitCode to a String because this is how it's represented in cmdArgs
     String exitCode = Integer.toString(process.exitValue());
 
     // Test the exit code
     if (exitCode.equals(cmdArgs.getAllowedPattern())) {
-      return SpecificationProtos.Outcome.ALLOWED;
+      testOutcome.setOutcome(SpecificationProtos.Outcome.ALLOWED);
     } else if (exitCode.equals(cmdArgs.getDisallowedPattern())) {
-      return SpecificationProtos.Outcome.DISALLOWED;
+      testOutcome.setOutcome(SpecificationProtos.Outcome.DISALLOWED);
     }
-    return SpecificationProtos.Outcome.UNSPECIFIED;
+
+    return testOutcome.build();
   }
 }

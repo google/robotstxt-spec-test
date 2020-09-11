@@ -14,6 +14,7 @@
 
 package com.google.search.robotstxt.spec;
 
+import com.google.search.robotstxt.spec.ParserMatcher.TestOutcome;
 import com.google.search.robotstxt.spec.specification.SpecificationProtos;
 import java.util.List;
 
@@ -23,13 +24,27 @@ public class ComplianceTestRunner implements TestRunner {
   public void runTests(
       List<TestInfo> testCases, ParserMatcher parserMatcher, CMDArgs cmdArgs, TestsResult result)
       throws Exception {
+    int totalNumberGoogleTests = 0;
+    int totalNumberComplianceTests = 0;
+
+    // Calculate the total number of Compliance and Google test cases
     for (TestInfo testInfo : testCases) {
-      SpecificationProtos.Outcome userOutcome =
+      if (testInfo.getTestType() == SpecificationProtos.TestType.GOOGLE_SPECIFIC) {
+        totalNumberGoogleTests++;
+      } else {
+        totalNumberComplianceTests++;
+      }
+    }
+    result.setTotalNumberComplianceTests(totalNumberComplianceTests);
+    result.setTotalNumberGoogleTests(totalNumberGoogleTests);
+
+    // Run each test case
+    for (TestInfo testInfo : testCases) {
+      TestOutcome userOutcome =
           parserMatcher.getOutcome(
               testInfo.getRobotsTxtContent(), testInfo.getUrl(), testInfo.getUserAgent(), cmdArgs);
-
-      if (userOutcome == testInfo.getExpectedOutcome()) {
-        result.reportSuccessComplianceTests();
+      if (userOutcome.outcome() == testInfo.getExpectedOutcome()) {
+        result.reportSuccessComplianceTests(testInfo);
       } else {
         result.reportFailureComplianceTests(testInfo, userOutcome);
       }

@@ -1,0 +1,71 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: *\n"
+        "Allow: /\n"
+        "\n"
+        "# Optimization for Baz Bot\n"
+        "User-Agent: FunBot-Baz-Mobile\n"
+        "User-Agent: FunBot-Baz\n"
+        "Disallow: /_api/*\n"
+        "Disallow: /_misc*\n"
+        "Disallow: /media/v1/view/*\n"
+        "\n"
+        "Sitemap: https://www.example.com/sitemap.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://www.example.com/foo/bar"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/"
+        useragent: "foo_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/robots.txt"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/_api/index.html"
+        useragent: "FunBot-Baz-Mobile"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/_misc"
+        useragent: "FunBot-Baz-Mobile"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/_media/v2/foo"
+        useragent: "FunBot-Baz-Mobile"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/media/v1/view/"
+        useragent: "FunBot-Baz-Mobile"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/media/v1/view/foo"
+        useragent: "FunBot-Baz"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/media/v1/view/foo"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/_misc/index.html"
+        useragent: "foo_bot"
+        expected_outcome: ALLOWED
+      }
+    ]
+  }
+]

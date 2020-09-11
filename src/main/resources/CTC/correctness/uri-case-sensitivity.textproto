@@ -1,0 +1,32 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /X/\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Matching rules against URIs is case sensitive."
+            "See REP I-D section \"The Allow and Disallow lines\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.2"
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /x/\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

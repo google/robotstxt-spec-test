@@ -1,0 +1,77 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "USER-AGENT: FooBot\n"
+        "ALLOW: /x/\n"
+        "DISALLOW: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "REP lines are case insensitive. "
+            "See REP I-D section \"Protocol Definition\"."
+            "\nhttps://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      },
+      {
+        testurl: "http://foo.bar/a/b"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "REP lines are case insensitive. "
+            "See REP I-D section \"Protocol Definition\"."
+            "\nhttps://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "allow: /x/\n"
+        "disallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "REP lines are case insensitive. "
+            "See REP I-D section \"Protocol Definition\"."
+            "\nhttps://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      },
+      {
+        testurl: "http://foo.bar/a/b"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "REP lines are case insensitive. "
+            "See REP I-D section \"Protocol Definition\"."
+            "\nhttps://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      }
+    ]
+  },
+  {
+    robotstxt: "uSeR-aGeNt: FooBot\n"
+        "AlLoW: /x/\n"
+        "dIsAlLoW: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "REP lines are case insensitive. "
+            "See REP I-D section \"Protocol Definition\"."
+            "\nhttps://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      },
+      {
+        testurl: "http://foo.bar/a/b"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "REP lines are case insensitive. "
+            "See REP I-D section \"Protocol Definition\"."
+            "\nhttps://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      }
+    ]
+  }
+]

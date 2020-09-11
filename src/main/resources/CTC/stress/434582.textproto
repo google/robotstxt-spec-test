@@ -1,0 +1,190 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "#\n"
+        "# robots.txt\n"
+        "#\n"
+        "# This is robots.txt\n"
+        "# and it saves server resources\n"
+        "# some more comment lines\n"
+        "# and an empty one\n"
+        "#\n"
+        "# Don't forget to put robots.txt in root of your host\n"
+        "# Used:    http://example.com/robots.txt\n"
+        "# Ignored: http://example.com/site/robots.txt\n"
+        "#\n"
+        "# For more information about the robots.txt standard, see:\n"
+        "# http://www.robotstxt.org/robotstxt.html\n"
+        "\n"
+        "User-agent: *\n"
+        "Crawl-delay: 15\n"
+        "# Foo\n"
+        "Allow: /stuff/*.css$\n"
+        "Allow: /stuff/*.css?\n"
+        "Allow: /stuff/*.js$\n"
+        "Allow: /stuff/*.js?\n"
+        "Allow: /stuff/*.gif\n"
+        "Allow: /stuff/*.jpg\n"
+        "Allow: /stuff/*.jpeg\n"
+        "Allow: /stuff/*.png\n"
+        "Allow: /things/*.css$\n"
+        "Allow: /things/*.css?\n"
+        "Allow: /things/*.js$\n"
+        "Allow: /things/*.js?\n"
+        "Allow: /things/*.gif\n"
+        "Allow: /things/*.jpg\n"
+        "Allow: /things/*.jpeg\n"
+        "Allow: /things/*.png\n"
+        "Allow: /data/*.css$\n"
+        "Allow: /data/*.css?\n"
+        "Allow: /data/*.js$\n"
+        "Allow: /data/*.js?\n"
+        "Allow: /data/*.gif\n"
+        "Allow: /data/*.jpg\n"
+        "Allow: /data/*.jpeg\n"
+        "Allow: /data/*.png\n"
+        "Allow: /more_data/*.css$\n"
+        "Allow: /more_data/*.css?\n"
+        "Allow: /more_data/*.js$\n"
+        "Allow: /more_data/*.js?\n"
+        "Allow: /more_data/*.gif\n"
+        "Allow: /more_data/*.jpg\n"
+        "Allow: /more_data/*.jpeg\n"
+        "Allow: /more_data/*.png\n"
+        "# Bar\n"
+        "Disallow: /something/\n"
+        "Disallow: /stuff/\n"
+        "Disallow: /things/\n"
+        "Disallow: /data/\n"
+        "Disallow: /scripts/\n"
+        "Disallow: /more_data/\n"
+        "# Baz\n"
+        "Disallow: /SOME_TEXT.txt\n"
+        "Disallow: /some_script.php\n"
+        "Disallow: /INSTALL.foo.txt\n"
+        "Disallow: /INSTALL.bar.txt\n"
+        "Disallow: /INSTALL.baz.txt\n"
+        "Disallow: /get.php\n"
+        "Disallow: /GET.txt\n"
+        "Disallow: /LICENSE.txt\n"
+        "Disallow: /HELPERS.txt\n"
+        "Disallow: /update.php\n"
+        "Disallow: /UPGRADE.txt\n"
+        "Disallow: /what.php\n"
+        "# Some more stuff to disallow\n"
+        "Disallow: /?q=main/\n"
+        "Disallow: /?q=comment/reply/\n"
+        "Disallow: /?q=filter/ads/\n"
+        "Disallow: /?q=data/add/\n"
+        "Disallow: /?q=find/\n"
+        "Disallow: /?q=baz/password/\n"
+        "Disallow: /?q=baz/register/\n"
+        "Disallow: /?q=baz/login/\n"
+        "Disallow: /?q=baz/logout/\n"
+    test_expectations:
+    [
+      {
+        testurl: "https://www.example.com/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/help.html"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/some.css"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/foo/some.css"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/stuff/some.css"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/stuff/some.html"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "https://www.example.com/stuff/some.jpeg"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/things/some.css?user=main"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/things/some.jpeg?user=main"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/something/foo.cpp"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "https://www.example.com/more_data/dark"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "https://www.example.com/some_script.php"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "https://www.example.com/upgrade.txt"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/UPGRADE.txt"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "https://www.example.com/data/main"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "https://www.example.com/?q=baz/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/?q=baz/login"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/?q=baz/login/"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "https://www.example.com/?q=data/discard/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "https://www.example.com/?q=data/add/"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

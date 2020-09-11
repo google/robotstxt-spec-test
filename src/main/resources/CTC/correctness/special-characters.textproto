@@ -1,0 +1,144 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: FooBot\n"
+        "Disallow: /foo/bar/quz\n"
+        "Allow: /foo/*/qux\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/foo/bar/quz"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: ""
+      },
+      {
+        testurl: "http://foo.bar/foo/quz"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The REP I-D defines the following characters that have "
+            "special meaning in robots.txt: \n"
+            "# - inline comment\n"
+            "$ - end of pattern\n"
+            "* - any number of characters\n"
+            "See REP I-D section \"Special Characters\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.3"
+      },
+      {
+        testurl: "http://foo.bar/foo//quz"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The REP I-D defines the following characters that have "
+            "special meaning in robots.txt: \n"
+            "# - inline comment\n"
+            "$ - end of pattern\n"
+            "* - any number of characters\n"
+            "See REP I-D section \"Special Characters\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.3"
+      },
+      {
+        testurl: "http://foo.bar/foo/bax/quz"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The REP I-D defines the following characters that have "
+            "special meaning in robots.txt: \n"
+            "# - inline comment\n"
+            "$ - end of pattern\n"
+            "* - any number of characters\n"
+            "See REP I-D section \"Special Characters\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.3"
+      }
+    ]
+  },
+  {
+    robotstxt: "User-agent: FooBot\n"
+        "Disallow: /foo/bar$\n"
+        "Allow: /foo/bar/qux\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/foo/bar"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "The REP I-D defines the following characters that have "
+            "special meaning in robots.txt: \n"
+            "# - inline comment\n"
+            "$ - end of pattern\n"
+            "* - any number of characters\n"
+            "See REP I-D section \"Special Characters\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.3"
+      },
+      {
+        testurl: "http://foo.bar/foo/bar/qux"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The REP I-D defines the following characters that have "
+            "special meaning in robots.txt: \n"
+            "# - inline comment\n"
+            "$ - end of pattern\n"
+            "* - any number of characters\n"
+            "See REP I-D section \"Special Characters\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.3"
+      },
+      {
+        testurl: "http://foo.bar/foo/bar/"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The REP I-D defines the following characters that have "
+            "special meaning in robots.txt: \n"
+            "# - inline comment\n"
+            "$ - end of pattern\n"
+            "* - any number of characters\n"
+            "See REP I-D section \"Special Characters\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.3"
+      },
+      {
+        testurl: "http://foo.bar/foo/bar/baz"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The REP I-D defines the following characters that have "
+            "special meaning in robots.txt: \n"
+            "# - inline comment\n"
+            "$ - end of pattern\n"
+            "* - any number of characters\n"
+            "See REP I-D section \"Special Characters\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.3"
+      }
+    ]
+  },
+  {
+    robotstxt: "User-agent: FooBot\n"
+        "# Disallow: /\n"
+        "Disallow: /foo/quz#qux\n"
+        "Allow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/foo/bar"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "The REP I-D defines the following characters that have "
+            "special meaning in robots.txt: \n"
+            "# - inline comment\n"
+            "$ - end of pattern\n"
+            "* - any number of characters\n"
+            "See REP I-D section \"Special Characters\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.3"
+      },
+      {
+        testurl: "http://foo.bar/foo/quz"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "The REP I-D defines the following characters that have "
+            "special meaning in robots.txt: \n"
+            "# - inline comment\n"
+            "$ - end of pattern\n"
+            "* - any number of characters\n"
+            "See REP I-D section \"Special Characters\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.2.3"
+      }
+    ]
+  }
+]

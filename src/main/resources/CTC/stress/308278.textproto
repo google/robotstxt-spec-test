@@ -1,0 +1,75 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: *\n"
+        "Disallow: /asdf-login\n"
+        "Disallow: /asdf-admin\n"
+        "Disallow: /databack/\n"
+        "Disallow: /data/*\n"
+        "Disallow: /?*/\n"
+        "Disallow: /author/\n"
+        "Disallow: /id/*/page/\n"
+        "Disallow: /id/*/data/\n"
+        "Sitemap: http://example.com/page-sitemap.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/asdf-login"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/asdf-login/"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/databack"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/databack/recent"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/?user=admin/data"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/?user=admin/data"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/id/page/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/id/some/page/"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/id/some/data"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/id/some/data/more"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

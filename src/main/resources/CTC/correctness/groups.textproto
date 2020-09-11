@@ -1,0 +1,107 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "allow: /foo/bar/\n"
+        "\n"
+        "user-agent: FooBot\n"
+        "disallow: /\n"
+        "allow: /x/\n"
+        "user-agent: BarBot\n"
+        "disallow: /\n"
+        "allow: /y/\n"
+        "\n"
+        "\n"
+        "allow: /w/\n"
+        "user-agent: BazBot\n"
+        "\n"
+        "user-agent: FooBot\n"
+        "allow: /z/\n"
+        "disallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/b"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "A group is one or more user-agent line followed by rules, "
+            "and terminated by a another user-agent line. Rules for same user-agents are "
+            "combined opaquely into one group. See REP I-D section \"Protocol Definition\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      },
+      {
+        testurl: "http://foo.bar/z/d"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "A group is one or more user-agent line followed by rules, "
+            "and terminated by a another user-agent line. Rules for same user-agents are "
+            "combined opaquely into one group. See REP I-D section \"Protocol Definition\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      },
+      {
+        testurl: "http://foo.bar/y/c"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "A group is one or more user-agent line followed by rules, "
+            "and terminated by a another user-agent line. Rules for same user-agents are "
+            "combined opaquely into one group. See REP I-D section \"Protocol Definition\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      },
+      {
+        testurl: "http://foo.bar/y/c"
+        useragent: "BarBot"
+        expected_outcome: ALLOWED
+        additional_explanation: ""
+      },
+      {
+        testurl: "http://foo.bar/w/a"
+        useragent: "BarBot"
+        expected_outcome: ALLOWED
+        additional_explanation: ""
+      },
+      {
+        testurl: "http://foo.bar/z/d"
+        useragent: "BarBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: ""
+      },
+      {
+        testurl: "http://foo.bar/z/d"
+        useragent: "BazBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "A group is one or more user-agent line followed by rules, "
+            "and terminated by a another user-agent line. Rules for same user-agents are "
+            "combined opaquely into one group. See REP I-D section \"Protocol Definition\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      },
+      {
+        testurl: "http://foo.bar/foo/bar/"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "A group is one or more user-agent line followed by rules, "
+            "and terminated by a another user-agent line. Rules outside groups are ignored. "
+            "See REP I-D section \"Protocol Definition\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      },
+      {
+        testurl: "http://foo.bar/foo/bar/"
+        useragent: "BarBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "A group is one or more user-agent line followed by rules, "
+            "and terminated by a another user-agent line. Rules outside groups are ignored. "
+            "See REP I-D section \"Protocol Definition\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      },
+      {
+        testurl: "http://foo.bar/foo/bar/"
+        useragent: "BazBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "A group is one or more user-agent line followed by rules, "
+            "and terminated by a another user-agent line. Rules outside groups are ignored. "
+            "See REP I-D section \"Protocol Definition\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.1"
+      }
+    ]
+  }
+]

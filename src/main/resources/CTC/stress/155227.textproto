@@ -1,0 +1,60 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "User-agent: *\n"
+        "Crawl-delay: 10\n"
+        "# Foo\n"
+        "Disallow: /asdf-main/\n"
+        "Disallow: /asdf-media/\n"
+        "Disallow: /asdf-shared/\n"
+        "# Bar\n"
+        "Disallow: /asdf-control.php\n"
+        "Disallow: /asdf-control-sample.php\n"
+        "Disallow: /asdf-settings.php\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/bar/index.html"
+        useragent: "foo_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/asdf-control.pdf"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/asdf-control.php"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/asdf-control-sample.php"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/asdf-control-simple.php"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/asdf-settings.php"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/asdf-shared/index.html"
+        useragent: "Foo-Bot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

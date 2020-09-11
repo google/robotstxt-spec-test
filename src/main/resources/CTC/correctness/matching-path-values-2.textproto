@@ -1,0 +1,221 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /\n"
+        "allow: /*.php\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/bar"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/filename.php"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/folder/filename.php"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/folder/filename.php?parameters"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar//folder/any.php.file.html"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/filename.php/"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/index?f=filename.php/"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/php/"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/index?php"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/windows.PHP"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /\n"
+        "allow: /*.php$\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/bar"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/filename.php"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/folder/filename.php"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/filename.php?parameters"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/filename.php/"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/filename.php5"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/php/"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/filename?php"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/aaaphpaaa"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar//windows.PHP"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /\n"
+        "allow: /fish*.php\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/bar"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/fish.php"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/fishheads/catfish.php?parameters"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      },
+      {
+        testurl: "http://foo.bar/Fish.PHP"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Test documentation from: \n"
+            "https://developers.google.com/search/reference/robots_txt \n"
+            "Section \"URL matching based on path values\"."
+      }
+    ]
+  }
+]

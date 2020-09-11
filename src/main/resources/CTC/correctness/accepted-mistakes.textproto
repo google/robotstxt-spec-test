@@ -1,0 +1,51 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: ""
+      }
+    ]
+  },
+  {
+    robotstxt: "foo: FooBot\n"
+        "bar: /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "There are no valid rules in the robots.txt file. "
+            "Everything allowed."
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent FooBot\n"
+        "disallow /\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://foo.bar/x/y"
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Rules are colon separated name-value pairs."
+            "See REP I-D section \"Protocol Definition\".\n"
+            "https://tools.ietf.org/html/draft-koster-rep#section-2.1\n"
+            "Google specific: webmasters sometimes miss the colon separator, but it's"
+            "obvious what they mean by \"disallow /\", so we assume the colon if it's missing.\n"
+            "https://github.com/google/robotstxt/blob/master/robots.cc#L330"
+        test_type: GOOGLE_SPECIFIC
+      }
+    ]
+  }
+]

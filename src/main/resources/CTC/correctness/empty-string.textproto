@@ -1,0 +1,51 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: ""
+    test_expectations:
+    [
+      {
+        testurl: ""
+        useragent: "FooBot"
+        expected_outcome: ALLOWED
+        additional_explanation: "Google specific: Empty robots.txt: everything allowed."
+        test_type: GOOGLE_SPECIFIC
+      },
+      {
+        testurl: ""
+        useragent: ""
+        expected_outcome: ALLOWED
+        additional_explanation: "Google specific: "
+            "All params empty: same as robots.txt empty, everything allowed."
+        test_type: GOOGLE_SPECIFIC
+      }
+    ]
+  },
+  {
+    robotstxt: "user-agent: FooBot\n"
+        "disallow: /\n"
+    test_expectations:
+    [
+      {
+        testurl: ""
+        useragent: ""
+        expected_outcome: ALLOWED
+        additional_explanation: "Google specific: Empty user-agent to be matched: "
+            "everything allowed.\n"
+            "https://github.com/google/robotstxt/blob/master/robots.cc#L117"
+        test_type: GOOGLE_SPECIFIC
+      } ,
+      {
+        testurl: ""
+        useragent: "FooBot"
+        expected_outcome: DISALLOWED
+        additional_explanation: "Google specific: Empty url: implicitly disallowed."
+            "Check how the path is extracted by the Google's robots.txt parser and matcher:\n"
+            "https://github.com/google/robotstxt/blob/master/robots.cc#L117"
+        test_type: GOOGLE_SPECIFIC
+      }
+    ]
+  }
+]

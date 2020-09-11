@@ -1,0 +1,40 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "Sitemap: http://example.com/sitemap.xml\n"
+        "Sitemap: http://example.com/news-sitemap.xml\n"
+        "User-agent: *\n"
+        "Disallow: /controller/\n"
+        "Allow: /controller/admin-ajax.php\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/index.html"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/controller/index.html"
+        useragent: "foo-bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/controller/foo/bar/index.htm"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/controller/admin-ajax.php"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/log?id=234"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      }
+    ]
+  }
+]

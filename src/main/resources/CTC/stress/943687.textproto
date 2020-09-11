@@ -1,0 +1,89 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "# Today I heard something new and unmemorable\n"
+        "# If I don’t like something, I’ll stay away from it\n"
+        "# Everyone was busy, so I went to the movie alone\n"
+        "#\n"
+        "# For more information about the robots.txt standard, see:\n"
+        "# http://www.robotstxt.org/orig.html\n"
+        "#\n"
+        "# For syntax checking, see:\n"
+        "# http://example.com/robots-checker.phtml\n"
+        "\n"
+        "User-agent: *\n"
+        "Disallow: /admin/\n"
+        "Disallow: /bin/\n"
+        "Disallow: /cache/\n"
+        "Disallow: /clion/\n"
+        "Disallow: /components/\n"
+        "Disallow: /excludes/\n"
+        "Disallow: /deinstallation/\n"
+        "Disallow: /layouts/\n"
+        "Disallow: /libraries/\n"
+        "Disallow: /logs/\n"
+        "Disallow: /plugins/\n"
+        "Disallow: /tmp/\n"
+        "\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://www.example.com/foo/bar"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/admin/settings"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/bin/sh"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/search?req=123"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/log/113"
+        useragent: "foo_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/logs/113"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/example/admin"
+        useragent: "foo-bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/admin"
+        useragent: "foobot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/admin/"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://www.example.com/dev/null"
+        useragent: "foo_bot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://www.example.com/tmp/null"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]

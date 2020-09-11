@@ -1,0 +1,80 @@
+# proto-file: src/main/proto/specification/specification.proto
+# proto-message: specification.RobotsTxtSpecification
+tests:
+[
+  {
+    robotstxt: "\n"
+        "\n"
+        "User-agent: Whoosh-Qux\n"
+        "Allow: /\n"
+        "\n"
+        "User-agent: Baz-Qux\n"
+        "Allow: /\n"
+        "\n"
+        "User-agent: barbot\n"
+        "Allow: /\n"
+        "Disallow: /braa\n"
+        "\n"
+        "User-agent: BeepBot\n"
+        "Disallow: /braa\n"
+        "\n"
+        "User-agent: Sample-web-crawler\n"
+        "Disallow: /braa\n"
+        "\n"
+        "User-agent: *\n"
+        "Disallow: /\n"
+        "\n"
+        "User-agent: *\n"
+        "Disallow: /braa\n"
+        "\n"
+        "Sitemap: /sitemap.xml\n"
+    test_expectations:
+    [
+      {
+        testurl: "http://example.com/robots.txt"
+        useragent: "Whoosh-Qux"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "Baz-Qux"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/braallaboration/index.htm"
+        useragent: "BeepBot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/foo/bar"
+        useragent: "BeepBot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "BeepBot"
+        expected_outcome: ALLOWED
+      },
+      {
+        testurl: "http://example.com/braa/balt"
+        useragent: "BeepBot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/index.htm"
+        useragent: "foobot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/braabalt"
+        useragent: "foo_bot"
+        expected_outcome: DISALLOWED
+      },
+      {
+        testurl: "http://example.com/"
+        useragent: "foo-bot"
+        expected_outcome: DISALLOWED
+      }
+    ]
+  }
+]
