@@ -4,6 +4,19 @@ This project aims to allow for any implementation of a robots.txt parser to be
 tested and have some confidence that it adheres to the standard, as specified by
 the [internet draft](https://tools.ietf.org/html/draft-koster-rep).
 
+## Background
+
+In 2019 the Search Open Sourcing team open sourced [robots.txt parser and matcher](https://github.com/google/robotstxt). 
+The open source code is in C++. Additionally, there is an [implementation of the 
+parser in Java](https://github.com/google/robotstxt-java).
+
+There are already Go and Rust implementations of the C++ parser in the open source community.
+
+At the moment there is no standard way to check whether different ports of the parser 
+comply with the standard. The project is a testing tool that can be run 
+against implementations in different languages and can validate that they comply 
+with the standard.
+
 ## Development
 
 ### Prerequisites
