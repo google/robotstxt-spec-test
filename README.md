@@ -94,40 +94,19 @@ An example of such command could be: `./my_parser --url %url% --user-agent %user
 Also, the parser must exit with an exit code or must print at Standard Output a specific message for the outcome of the test.
 
 
-## Source Code Headers
+## License
 
-Every file containing source code must include copyright and license
-information. This includes any JS/CSS files that you might be serving out to
-browsers. (This is to help well-intentioned people avoid accidental copying that
-doesn't comply with the license.)
+The robots.txt parser and matcher C++ library is licensed under the terms of the Apache license. See LICENSE for more information.
 
-Apache header:
+## Links
 
-    Copyright 2020 Google LLC
+To learn more about this project:
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+- check out the [internet draft](https://tools.ietf.org/html/draft-koster-rep-02),
+- how [Google's handling robots.txt](https://developers.google.com/search/reference/robots_txt),
+- or for a high level overview, [the robots.txt page on Wikipedia](https://en.wikipedia.org/wiki/Robots_exclusion_standard).
 
-        https://www.apache.org/licenses/LICENSE-2.0
+Google's Robots.txt Parser/Matcher:
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
-It can be done easily by using the
-[addlicense](https://github.com/google/addlicense) tool
-
-Install it:
-
-```
-$ go get -u github.com/google/addlicense
-```
-
-Use it like this to make sure all files have the licence:
-
-```
-$ ~/go/bin/addlicense -c "Google LLC" -l apache .
-```
+- [C++ Implementation](https://github.com/google/robotstxt)
+- [Java Implementation](https://github.com/google/robotstxt-java)
