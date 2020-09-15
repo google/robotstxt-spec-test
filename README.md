@@ -105,7 +105,9 @@ Also, the parser must exit with an exit code or must print at Standard Output a 
 
 ### Custom Tests
 
-If you want to test your parser against your own tests, you can totally do that! :)
+If you want to test your parser against your own tests, you can totally do that! :) 
+
+You just need to provide the directory of your tests (`--userTestDir=<path-to-your-folder>`)
 
 Here are some guidelines for creating your own custome tests to run your parser against them.
 
