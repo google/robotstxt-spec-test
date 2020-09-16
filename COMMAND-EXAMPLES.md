@@ -67,4 +67,4 @@ The parser is called with the template `./my_parser --url %url% --user-agent %us
 
 The parser prints the outcome at `STDOUT`. It will print `The outcome: ALLOWED` for Allowed and `The outcome: DISALLOWED` for Disallowed. 
 
-Also, the user wants to test the parser against their own test cases, so they provide the path to the folder of these test files (`~/Desktop/myTests`). If you want to find out more on how to create your own test cases, please refer to [this section]() of the README.md file. 
+Also, the user wants to test the parser against their own test cases, so they provide the path to the folder of these test files (`~/Desktop/myTests`). If you want to find out more on how to create your own test cases, please refer to [this section](https://github.com/google/robotstxt-spec-test#custom-tests) of the README.md file. 
