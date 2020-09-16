@@ -103,6 +103,9 @@ $ mvn exec:java -Dexec.mainClass="com.google.search.robotstxt.spec.Main" \
 
 Also, the parser must exit with an exit code or must print at Standard Output a specific message for the outcome of the test.
 
+
+If you want to see some examples of calling commands for a better understanding on how the testing tool can be configured, please check [COMMAND-EXAMPLES.md](https://github.com/google/robotstxt-spec-test/blob/master/COMMAND-EXAMPLES.md).
+
 ### Custom Tests
 
 If you want to test your parser against your own tests, you can totally do that! :) 
